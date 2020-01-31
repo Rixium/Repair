@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Repair.Screen;
 
 namespace Repair
 {
@@ -14,11 +15,25 @@ namespace Repair
         private SpriteBatch _spriteBatch;
 
         private WeatherManager _weatherManager;
-        
+        private ScreenManager _screenManager;
+
         public Game1()
         {
-            _graphics = new GraphicsDeviceManager(this);
+            InitializeScreenProperties();
+            
+            _graphics = new GraphicsDeviceManager(this)
+            {
+                PreferredBackBufferWidth = ScreenProperties.ScreenWidth,
+                PreferredBackBufferHeight = ScreenProperties.ScreenHeight
+            };
+            
             Content.RootDirectory = "Content";
+        }
+
+        private static void InitializeScreenProperties()
+        {
+            ScreenProperties.ScreenWidth = 1280;
+            ScreenProperties.ScreenHeight = 720;
         }
 
         protected override void Initialize()
@@ -36,6 +51,15 @@ namespace Repair
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             
             ContentChest.BasicLoad();
+            
+            _screenManager = new ScreenManager();
+            RequestScreenChange(new SplashScreen());
+        }
+
+        private void RequestScreenChange(IScreen screen)
+        {
+            screen.RequestScreenChange += RequestScreenChange;
+            _screenManager.SetScreen(screen);
         }
 
         protected override void UnloadContent()
@@ -48,13 +72,18 @@ namespace Repair
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            var delta = gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
+            _screenManager.Update(delta);
+            
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(Color.White);
 
+            _screenManager.Draw(_spriteBatch);
+            
             base.Draw(gameTime);
         }
     }
