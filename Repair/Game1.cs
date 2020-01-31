@@ -17,7 +17,6 @@ namespace Repair
 
         private WeatherManager _weatherManager;
         private ScreenManager _screenManager;
-        private InputManager _inputManager;
         private NotifyManager _notifyManager;
 
         public Game1()
@@ -48,15 +47,24 @@ namespace Repair
             
             _notifyManager = new NotifyManager();
             _screenManager = new ScreenManager();
-            _inputManager = new InputManager();
 
-            _inputManager.OnGamePadConnected += OnGamePadConnected;
+            InputManager.OnGamePadConnected += OnGamePadConnected;
+            InputManager.OnGamePadDisconnected += OnGamePadDisconnected;
             base.Initialize();
+        }
+
+        private void OnGamePadDisconnected()
+        {
+            _notifyManager.OnGamePadDisconnected();
+            
+            InputManager.SetActiveInput(new KeyboardInput());
         }
 
         private void OnGamePadConnected()
         {
             _notifyManager.OnGamePadConnected();
+            
+            InputManager.SetActiveInput(new GamepadInput());
         }
 
         protected override void LoadContent()
@@ -85,7 +93,7 @@ namespace Repair
             
             var delta = gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
             _notifyManager.Update(delta);
-            _inputManager.Update(delta);
+            InputManager.Update(delta);
             _screenManager.Update(delta);
             
             base.Update(gameTime);

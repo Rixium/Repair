@@ -46,11 +46,14 @@ namespace Repair.Notify
 
         public void Update(float delta)
         {
-            Y -= 1;
-
-            if (Y < ScreenProperties.ScreenHeight - MidRectangle.Height - ScreenPadding * 2)
+            if (Y <= ScreenProperties.ScreenHeight - MidRectangle.Height - ScreenPadding)
             {
+                Y = ScreenProperties.ScreenHeight - MidRectangle.Height - ScreenPadding;
                 _fade -= 2f * delta;
+            }
+            else
+            {
+                Y -= 1;
             }
         }
 

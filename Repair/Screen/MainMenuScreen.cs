@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
+using Repair.Input;
 using Repair.UI;
 
 namespace Repair.Screen
@@ -27,8 +28,29 @@ namespace Repair.Screen
                 startButton,
                 quitButton
             };
+
+            InputManager.OnDownPressed = OnDownPressed;
+            InputManager.OnUpPressed = OnUpPressed;
         }
-        
+
+        private void OnUpPressed()
+        {
+            var newActive = _activeButton - 1;
+            if (newActive < 0)
+                newActive = _buttons.Length - 1;
+
+            _activeButton = newActive;
+        }
+
+        private void OnDownPressed()
+        {
+            var newActive = _activeButton + 1;
+            if (newActive >= _buttons.Length)
+                newActive = 0;
+
+            _activeButton = newActive;
+        }
+
         public void Update(float delta)
         {
             
@@ -44,6 +66,8 @@ namespace Repair.Screen
                 button.Draw(spriteBatch);
             }
             
+            spriteBatch.DrawString(ContentChest.ButtonFont, "<", _buttons[_activeButton].Right + new Vector2(10, 0), new Color(119, 221, 119));
+
             spriteBatch.End();
         }
         

@@ -22,7 +22,11 @@ namespace Repair.Notify
         {
             _notifications.Add(new Notification("Gamepad Connected"));
         }
-        
-        
+
+
+        public void OnGamePadDisconnected()
+        {
+            _notifications.Add(new Notification("Gamepad Disconnected"));
+        }
     }
 }

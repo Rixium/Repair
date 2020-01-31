@@ -20,9 +20,12 @@ namespace Repair.UI
             _position = position;
 
             _stringMeasurements = font.MeasureString(text);
+            
+            Right = new Vector2(_position.X + _stringMeasurements.X, _position.Y);
         }
 
         public float Bottom => _position.Y + _stringMeasurements.Y;
+        public Vector2 Right { get; set; }
 
         public void Click()
         {
