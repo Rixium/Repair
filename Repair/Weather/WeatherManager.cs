@@ -1,3 +1,4 @@
+using System;
 using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -30,11 +31,19 @@ namespace Repair
 
         public WeatherInformation GetWeatherInformation()
         {
-            var url = $"http://api.openweathermap.org/data/2.5/weather?q={_city},{_country}&APPID={_apiKey}";
-            var response = _client.GetAsync(url);
-            var jsonString = response.Result.Content.ReadAsStringAsync();
-            jsonString.Wait();
-            return JsonConvert.DeserializeObject<WeatherInformation>(jsonString.Result);
+            try
+            {
+                var url = $"http://api.openweathermap.org/data/2.5/weather?q={_city},{_country}&APPID={_apiKey}";
+                var response = _client.GetAsync(url);
+                var jsonString = response.Result.Content.ReadAsStringAsync();
+                jsonString.Wait();
+                return JsonConvert.DeserializeObject<WeatherInformation>(jsonString.Result);
+            }
+            catch (Exception ex)
+            {
+                return WeatherInformation.Default;
+            }
+            
         }
         
     }
