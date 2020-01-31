@@ -39,7 +39,7 @@ namespace Repair
                 jsonString.Wait();
                 return JsonConvert.DeserializeObject<WeatherInformation>(jsonString.Result);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return WeatherInformation.Default;
             }
