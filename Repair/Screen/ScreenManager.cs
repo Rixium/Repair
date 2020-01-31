@@ -1,66 +1,48 @@
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Repair.Transition;
 
 namespace Repair.Screen
 {
     public class ScreenManager
     {
-
-        private const float FadeSpeed = 0.5f;
         
-        private bool _transitioning;
-        private float _fade = 1.0f;
-
+        private readonly ITransition _transition;
+        
         private IScreen _activeScreen;
-        private IScreen _nextScreen;
+
+        public ScreenManager()
+        {
+            _transition = new FadeTransition();
+        }
 
         public void SetScreen(IScreen screen)
         {
-            _nextScreen = screen;
-            _transitioning = true;
+            _transition.OnTransitionOutEnded = () =>
+            {
+                _activeScreen = screen;
+            };
+            
+            _transition.Reset();
         }
         
         public void Update(float delta)
         {
-            if (_transitioning)
+            if (!_transition.HasEnded())
             {
-                UpdateTransition(delta);
-            }
-            
-            _activeScreen?.Update(delta);
-        }
-
-        private void UpdateTransition(float delta)
-        {
-            if (_nextScreen != null)
-            {
-                _fade += FadeSpeed * delta;
-                
-                if (_fade < 1.0f) return;
-                
-                _fade = 1;
-                _activeScreen = _nextScreen; 
-                _nextScreen = null;
-                
+                _transition.Update(delta);
                 return;
             }
-            
-            
-            _fade -= FadeSpeed * delta;
 
-            if (_fade > 0) return;
-            _fade = 0; 
-            _transitioning = false;
+            _activeScreen?.Update(delta);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             _activeScreen?.Draw(spriteBatch);
 
-            if (!_transitioning) return;
-            
+            if (_transition.HasEnded()) return;
             spriteBatch.Begin();
-            spriteBatch.Draw(ContentChest.Pixel, new Rectangle(0, 0, ScreenProperties.ScreenWidth, ScreenProperties.ScreenHeight), Color.Black * _fade);
+            _transition.Draw(spriteBatch);
             spriteBatch.End();
         }
         
