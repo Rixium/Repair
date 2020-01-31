@@ -17,6 +17,7 @@ namespace Repair
         public static Texture2D Splash { get; set; }
         public static Song MainMusic { get; set; }
         public static SpriteFont TitleFont { get; set; }
+        public static SpriteFont ButtonFont { get; set; }
 
         public static void Initialize(ContentManager contentManager)
         {
@@ -37,6 +38,7 @@ namespace Repair
             
             MainMusic = _contentManager.Load<Song>("Music/main");
             TitleFont = _contentManager.Load<SpriteFont>("Fonts/title");
+            ButtonFont = _contentManager.Load<SpriteFont>("Fonts/button");
             
             OnLoaded?.Invoke();
         }
