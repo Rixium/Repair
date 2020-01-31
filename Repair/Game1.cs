@@ -6,6 +6,7 @@ namespace Repair
 {
     public class Game1 : Game
     {
+        
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         
@@ -17,14 +18,16 @@ namespace Repair
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
+            ContentChest.Initialize(Content);
+            
             base.Initialize();
         }
         
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            
+            ContentChest.Load();
         }
 
         protected override void UnloadContent()
