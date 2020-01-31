@@ -9,6 +9,7 @@ namespace Repair
         
         private static ContentManager _contentManager;
 
+        public static Texture2D Pixel { get; set; }
         public static Texture2D Splash { get; set; }
         public static Song MainMusic { get; set; }
         
@@ -19,6 +20,7 @@ namespace Repair
 
         public static void BasicLoad()
         {
+            Pixel = _contentManager.Load<Texture2D>("Images/pixel");
             Splash = _contentManager.Load<Texture2D>("Images/splash");
         }
         
