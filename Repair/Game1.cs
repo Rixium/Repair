@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Repair.Input;
+using Repair.Notify;
 using Repair.Screen;
 
 namespace Repair
@@ -15,6 +17,8 @@ namespace Repair
 
         private WeatherManager _weatherManager;
         private ScreenManager _screenManager;
+        private InputManager _inputManager;
+        private NotifyManager _notifyManager;
 
         public Game1()
         {
@@ -42,7 +46,17 @@ namespace Repair
             _weatherManager = new WeatherManager(new HttpClient(), ApiKey);
             var weatherInformation = _weatherManager.GetWeatherInformation();
             
+            _notifyManager = new NotifyManager();
+            _screenManager = new ScreenManager();
+            _inputManager = new InputManager();
+
+            _inputManager.OnGamePadConnected += OnGamePadConnected;
             base.Initialize();
+        }
+
+        private void OnGamePadConnected()
+        {
+            _notifyManager.OnGamePadConnected();
         }
 
         protected override void LoadContent()
@@ -50,8 +64,6 @@ namespace Repair
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             
             ContentChest.BasicLoad();
-            
-            _screenManager = new ScreenManager();
             RequestScreenChange(new SplashScreen());
         }
 
@@ -70,8 +82,10 @@ namespace Repair
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
+            
             var delta = gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
+            _notifyManager.Update(delta);
+            _inputManager.Update(delta);
             _screenManager.Update(delta);
             
             base.Update(gameTime);
@@ -82,6 +96,10 @@ namespace Repair
             GraphicsDevice.Clear(Color.White);
 
             _screenManager.Draw(_spriteBatch);
+            
+            _spriteBatch.Begin();
+            _notifyManager.Draw(_spriteBatch);
+            _spriteBatch.End();
             
             base.Draw(gameTime);
         }

@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using Repair.UI;
 
 namespace Repair.Screen
@@ -16,9 +17,7 @@ namespace Repair.Screen
 
         public MainMenuScreen()
         {
-            #if !DEBUG
-            MediaPlayer.Play(ContentChest.MainMusic);
-            #endif
+            //MediaPlayer.Play(ContentChest.MainMusic); // TODO UNCOMMENT ON RELEASE
             
             var startButton = new Button(ContentChest.ButtonFont, "Start", Color.Black, new Vector2(20, 100), Origin.Center);
             var quitButton = new Button(ContentChest.ButtonFont, "Quit", Color.Black, new Vector2(20, startButton.Bottom + ButtonPadding), Origin.Center);

@@ -44,6 +44,10 @@
   <ItemGroup>
     <Compile Include="ContentChest.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Input\InputManager.cs" />
+    <Compile Include="Notify\Notification.cs" />
+    <Compile Include="Notify\INotification.cs" />
+    <Compile Include="Notify\NotifyManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScreenProperties.cs" />

@@ -18,6 +18,10 @@ namespace Repair
         public static Song MainMusic { get; set; }
         public static SpriteFont TitleFont { get; set; }
         public static SpriteFont ButtonFont { get; set; }
+        
+        public static Texture2D NotifyLeft { get; set; }
+        public static Texture2D NotifyRight { get; set; }
+        public static Texture2D NotifyMid { get; set; }
 
         public static void Initialize(ContentManager contentManager)
         {
@@ -25,7 +29,11 @@ namespace Repair
         }
 
         public static void BasicLoad()
-        {
+        {            
+            ButtonFont = _contentManager.Load<SpriteFont>("Fonts/button");
+            NotifyLeft = _contentManager.Load<Texture2D>("Images/notify_left");
+            NotifyRight = _contentManager.Load<Texture2D>("Images/notify_right");
+            NotifyMid = _contentManager.Load<Texture2D>("Images/notify_mid");
             Pixel = _contentManager.Load<Texture2D>("Images/pixel");
             Splash = _contentManager.Load<Texture2D>("Images/splash");
         }
@@ -36,9 +44,8 @@ namespace Repair
             
             _loadInitialized = true;
             
-            MainMusic = _contentManager.Load<Song>("Music/main");
             TitleFont = _contentManager.Load<SpriteFont>("Fonts/title");
-            ButtonFont = _contentManager.Load<SpriteFont>("Fonts/button");
+            MainMusic = _contentManager.Load<Song>("Music/main");
             
             OnLoaded?.Invoke();
         }
