@@ -35,9 +35,7 @@ namespace Repair
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             
-            ContentChest.Load();
-            
-            MediaPlayer.Play(ContentChest.MainMusic);
+            ContentChest.BasicLoad();
         }
 
         protected override void UnloadContent()
