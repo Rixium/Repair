@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Net.Http;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
@@ -24,7 +25,9 @@ namespace Repair
         {
             ContentChest.Initialize(Content);
             
-            _weatherManager = new WeatherManager(ApiKey);
+            _weatherManager = new WeatherManager(new HttpClient(), ApiKey);
+            var weatherInformation = _weatherManager.GetWeatherInformation();
+            
             base.Initialize();
         }
 
