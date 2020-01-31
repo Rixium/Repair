@@ -39,7 +39,7 @@ namespace Repair
                 jsonString.Wait();
                 return JsonConvert.DeserializeObject<WeatherInformation>(jsonString.Result);
             }
-            catch (Exception)
+            catch (Exception) // TODO test without internet, and maybe show error if weather cannot be gathered.
             {
                 return WeatherInformation.Default;
             }
