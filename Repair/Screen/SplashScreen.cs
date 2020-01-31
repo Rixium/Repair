@@ -9,8 +9,7 @@ namespace Repair.Screen
     {
 
         private readonly Rectangle _splashRectangle;
-        private Timer _timer;
-
+        
         public Action<IScreen> RequestScreenChange { get; set; }
 
         public SplashScreen()
@@ -25,26 +24,18 @@ namespace Repair.Screen
                 (int) splashPosition.Y, 
                 ContentChest.Splash.Width / 2, 
                 ContentChest.Splash.Height / 2);
-
-            _timer = new Timer
-            {
-                Interval = 5000
-            };
             
-            _timer.Elapsed += (e, b) => OnTimerEnd();
-
-            _timer.Start();
-        }
-
-        private void OnTimerEnd()
-        {
-            _timer.Stop();
-            RequestScreenChange?.Invoke(new SplashScreen());
+            ContentChest.OnLoaded = OnContentLoaded;
         }
 
         public void Update(float delta)
         {
-            
+            ContentChest.Load();
+        }
+
+        private void OnContentLoaded()
+        {
+            RequestScreenChange?.Invoke(new MainMenuScreen());
         }
 
         public void Draw(SpriteBatch spriteBatch)
