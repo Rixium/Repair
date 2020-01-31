@@ -13,6 +13,13 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Fonts/title.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/title.spritefont
+
 #begin Images/pixel.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -42,4 +49,7 @@
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Music/main.mp3
+
+#begin Raw/Understory.otf
+/copy:Raw/Understory.otf
 
