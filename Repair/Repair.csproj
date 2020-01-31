@@ -53,6 +53,8 @@
     <Compile Include="Screen\SplashScreen.cs" />
     <Compile Include="Transition\FadeTransition.cs" />
     <Compile Include="Transition\ITransition.cs" />
+    <Compile Include="UI\Button.cs" />
+    <Compile Include="UI\Origin.cs" />
     <Compile Include="Weather\WeatherData.cs" />
     <Compile Include="Weather\WeatherInformation.cs" />
     <Compile Include="Weather\WeatherManager.cs" />
