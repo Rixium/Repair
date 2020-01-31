@@ -77,11 +77,11 @@ namespace Repair
 
         private void RequestScreenChange(IScreen screen)
         {
-            screen.RequestScreenChange += RequestScreenChange;
-            screen.RequestQuit += RequestQuit;
+            screen.RequestScreenChange = RequestScreenChange;
+            screen.RequestQuit = RequestQuit;
             _screenManager.SetScreen(screen);
         }
-
+        
         private void RequestQuit() => Exit();
 
         protected override void UnloadContent()
