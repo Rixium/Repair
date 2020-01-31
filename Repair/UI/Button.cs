@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -5,7 +6,8 @@ namespace Repair.UI
 {
     public class Button
     {
-        
+
+        public Action OnClick;
         private readonly SpriteFont _font;
         private string _text;
         private readonly Color _color;
@@ -27,10 +29,7 @@ namespace Repair.UI
         public float Bottom => _position.Y + _stringMeasurements.Y;
         public Vector2 Right { get; set; }
 
-        public void Click()
-        {
-            
-        }
+        public void Click() => OnClick?.Invoke();
 
         public void Draw(SpriteBatch spriteBatch)
         {

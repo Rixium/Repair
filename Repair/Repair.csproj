@@ -54,6 +54,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScreenProperties.cs" />
+    <Compile Include="Screen\GameScreen.cs" />
     <Compile Include="Screen\IScreen.cs" />
     <Compile Include="Screen\MainMenuScreen.cs" />
     <Compile Include="Screen\ScreenManager.cs" />

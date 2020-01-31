@@ -9,7 +9,8 @@ namespace Repair.Screen
     {
 
         private readonly Rectangle _splashRectangle;
-        
+
+        public Action RequestQuit { get; set; }
         public Action<IScreen> RequestScreenChange { get; set; }
 
         public SplashScreen()

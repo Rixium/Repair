@@ -20,6 +20,11 @@ namespace Repair.Input
                 InputManager.OnDownPressed?.Invoke();
             }
 
+            if (state.Buttons.A == ButtonState.Pressed && _lastState.Buttons.A == ButtonState.Released)
+            {
+                InputManager.OnInteractPressed?.Invoke();
+            }
+
             _lastState = state;
         }
     }

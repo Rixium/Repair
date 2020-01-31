@@ -13,10 +13,15 @@ namespace Repair.Input
 
             if (state.IsKeyDown(Keys.S) && _lastState.IsKeyUp(Keys.S))
             {
-                InputManager.OnDownPressed();
+                InputManager.OnDownPressed?.Invoke();
             } else if (state.IsKeyDown(Keys.W) && _lastState.IsKeyUp(Keys.W))
             {
-                InputManager.OnUpPressed();
+                InputManager.OnUpPressed?.Invoke();
+            }
+
+            if (state.IsKeyDown(Keys.E) && _lastState.IsKeyUp(Keys.E))
+            {
+                InputManager.OnInteractPressed?.Invoke();
             }
 
             _lastState = state;

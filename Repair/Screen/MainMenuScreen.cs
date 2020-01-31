@@ -9,6 +9,7 @@ namespace Repair.Screen
 {
     public class MainMenuScreen : IScreen
     {
+        public Action RequestQuit { get; set; }
         public Action<IScreen> RequestScreenChange { get; set; }
 
         private const int ButtonPadding = 10;
@@ -21,7 +22,10 @@ namespace Repair.Screen
             //MediaPlayer.Play(ContentChest.MainMusic); // TODO UNCOMMENT ON RELEASE
             
             var startButton = new Button(ContentChest.ButtonFont, "Start", Color.Black, new Vector2(20, 100), Origin.Center);
+            startButton.OnClick = OnStartClicked;
+            
             var quitButton = new Button(ContentChest.ButtonFont, "Quit", Color.Black, new Vector2(20, startButton.Bottom + ButtonPadding), Origin.Center);
+            quitButton.OnClick = OnQuitClicked;
             
             _buttons = new[]
             {
@@ -31,6 +35,22 @@ namespace Repair.Screen
 
             InputManager.OnDownPressed = OnDownPressed;
             InputManager.OnUpPressed = OnUpPressed;
+            InputManager.OnInteractPressed = OnInteractPressed;
+        }
+
+        private void OnQuitClicked()
+        {
+            RequestQuit?.Invoke();
+        }
+
+        private void OnStartClicked()
+        {
+            RequestScreenChange?.Invoke(new GameScreen());
+        }
+
+        private void OnInteractPressed()
+        {
+            _buttons[_activeButton].Click();
         }
 
         private void OnUpPressed()

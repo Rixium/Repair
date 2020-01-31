@@ -6,6 +6,7 @@ namespace Repair.Screen
 {
     public interface IScreen
     {
+        Action RequestQuit { get; set; }
         Action<IScreen> RequestScreenChange { get; set; }
         
         void Update(float delta);
