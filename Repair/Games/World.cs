@@ -22,6 +22,8 @@ namespace Repair.Games
             InputManager.OnUpHeld = () => Scroll(0, -_camera.ScrollSpeed);
             InputManager.OnLeftHeld = () => Scroll(-_camera.ScrollSpeed, 0);
             InputManager.OnRightHeld = () => Scroll(_camera.ScrollSpeed, 0);
+            InputManager.OnZoomInPressed = () => _camera.Zoom(1);
+            InputManager.OnZoomOutPressed = () => _camera.Zoom(-1);
 
             Map.RequestNotification = s => RequestNotification?.Invoke(s);
             _camera = new Camera(0, 0);

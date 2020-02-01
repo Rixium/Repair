@@ -64,6 +64,18 @@ namespace Repair.Input
                 }
             }
 
+            if (state.Buttons.LeftShoulder == ButtonState.Pressed &&
+                _lastState.Buttons.LeftShoulder == ButtonState.Released)
+            {
+                InputManager.OnZoomOutPressed?.Invoke();
+            }
+
+            if (state.Buttons.RightShoulder == ButtonState.Pressed &&
+                _lastState.Buttons.RightShoulder == ButtonState.Released)
+            {
+                InputManager.OnZoomInPressed?.Invoke();
+            }
+            
             _lastState = state;
         }
     }

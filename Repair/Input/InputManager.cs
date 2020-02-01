@@ -12,16 +12,18 @@ namespace Repair.Input
         public static Action OnGamePadDisconnected;
         private static bool _wasConnected;
 
-        public static Action OnDownPressed;
-        public static Action OnUpPressed;
-        public static Action OnLeftPressed;
-        public static Action OnRightPressed;
-        public static Action OnInteractPressed;
-        public static Action OnDownHeld;
-        public static Action OnUpHeld;
-        public static Action OnRightHeld;
-        public static Action OnLeftHeld;
-        
+        public static Action OnDownPressed { get; set; }
+        public static Action OnUpPressed { get; set; }
+        public static Action OnLeftPressed { get; set; }
+        public static Action OnRightPressed { get; set; }
+        public static Action OnInteractPressed { get; set; }
+        public static Action OnDownHeld { get; set; }
+        public static Action OnUpHeld { get; set; }
+        public static Action OnRightHeld { get; set; }
+        public static Action OnLeftHeld { get; set; }
+        public static Action OnZoomInPressed { get; set; }
+        public static Action OnZoomOutPressed { get; set; }
+
 
         public static void Update(float delta)
         {
