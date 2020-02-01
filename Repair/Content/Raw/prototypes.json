@@ -1,6 +1,24 @@
 [
 	{
 		"ObjectName": [
+			"Tent"
+		],
+		"FileName": [
+			"tent"
+		],
+		"Origins": [
+			{
+				"X" : 9,
+				"Y" : 10
+			}
+		],
+		"Collidable":true,
+		"Stage": 1,
+		"TotalStages": 1,
+		"CanPickUp":true
+	},
+	{
+		"ObjectName": [
 			"Seed",
 			"Sapling",
 			"Sapling",
@@ -23,8 +41,8 @@
 				"X" : 1,
 				"Y" : 1
 			},
-			{ 
-				"X" : 1.5, 
+			{
+				"X" : 1.5,
 				"Y" : 1.5
 			},
 			{
@@ -54,6 +72,7 @@
 		"Stage": 1,
 		"TotalStages": 7,
 		"StageModifier": 2,
-		"ProgressOnSleep": true
+		"ProgressOnSleep": true,
+		"CanPickUp":false
 	}
 ]

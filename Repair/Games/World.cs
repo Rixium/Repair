@@ -84,7 +84,14 @@ namespace Repair.Games
         private static Inventory CreateStartingInventory()
         {
             var inventory = new Inventory();
-
+            
+            inventory.AddItem(new Item()
+            {
+                ItemName = "Tent",
+                FileName = "tent",
+                Usable = true
+            });
+            
             inventory.AddItem(new Item()
             {
                 ItemName = "Seed",
