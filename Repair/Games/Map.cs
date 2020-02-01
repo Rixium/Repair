@@ -75,7 +75,17 @@ namespace Repair.Games
                         var tileTop = _tiles[i, j].North;
                         if (tileTop != null && tileTop.IsDry)
                         {
-                            spriteBatch.Draw(ContentChest.WaterEdge, new Vector2(i * TileSize, j * TileSize), Color.White);
+                            if (WaterEdgeUp)
+                            {
+                                spriteBatch.Draw(ContentChest.WaterEdge, new Vector2(i * TileSize, j * TileSize),
+                                    Color.White);
+                            }
+                            else
+                            {
+                                spriteBatch.Draw(ContentChest.WaterEdge2, new Vector2(i * TileSize, j * TileSize),
+                                    Color.White);
+                            }
+                            
                         }
                         else
                         {
@@ -86,9 +96,20 @@ namespace Repair.Games
             }
         }
 
+        public bool WaterEdgeUp => WaterFrame == 1;
+        private int WaterFrame = 0;
+        private int MaxWaterFrame = 1;
+        private float FrameTimer = 0;
+        private float AnimationSpeed = 1f;
+
         public void Update(float delta)
         {
+            FrameTimer += delta;
+
+            if (FrameTimer < AnimationSpeed) return;
             
+            WaterFrame = WaterFrame == 0 ? 1 : 0;
+            FrameTimer = 0;
         }
 
         public Vector2 GetTilePositionVector(Tile tile) => new Vector2(tile.X * TileSize, tile.Y * TileSize);
