@@ -52,6 +52,10 @@ namespace Repair.Screen
 
             spriteBatch.End();
         }
-        
+
+        public void ResetTransition()
+        {
+            _transition.Reset();
+        }
     }
 }

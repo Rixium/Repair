@@ -17,9 +17,11 @@ namespace Repair.Games
         public int StageModifier { get; set; }
         public bool ProgressOnSleep { get; set; }
         public Tile Tile { get; set; }
+        public bool CanUse { get; set; }
 
         public bool CreateInstance(Tile tile)
         {
+            if (!tile.IsDry) return false;
             if (tile.WorldObject != null) return false;
 
             var worldObject = new WorldObject()
@@ -35,7 +37,8 @@ namespace Repair.Games
                 TotalStages = TotalStages,
                 StageModifier =  StageModifier,
                 ProgressOnSleep = ProgressOnSleep,
-                CanPickup = CanPickup
+                CanPickup = CanPickup,
+                CanUse =  CanUse
             };
 
             tile.WorldObject = worldObject;

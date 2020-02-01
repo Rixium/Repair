@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Repair.Input;
+using Repair.Transition;
 using Repair.UI;
 using Repair.Util;
 
@@ -11,6 +12,8 @@ namespace Repair.Games
     public class World
     {
 
+        public Action RequestTransitionReset { get; set; }
+        
         private List<WorldObject> WorldObjects = new List<WorldObject>(); 
         public UIManager UIManager;
         public int MapSize { get; set; } = 1000;
@@ -68,17 +71,38 @@ namespace Repair.Games
         private void UseItem()
         {
             if (Player.TargetTile != Player.Tile) return;
+            var facing = Player.GetFacingTile();
+
+            if (facing == null) return;
+            if (facing.WorldObject != null && facing.WorldObject.CanUse)
+            {
+                BeginProgress();
+                return;
+            }
             
             var slot = UIManager.GetSelectedSlot();
             if (slot.Item == null) return;
             if (!slot.Item.Usable) return;
 
             var protoType = ContentChest.ProtoTypes[slot.Item.FileName];
-            var successful = protoType.CreateInstance(Player.GetFacingTile());
+            var successful = protoType.CreateInstance(facing);
             if (!successful) return;
             
             slot.Remove(1);
-            AddWorldObject(Player.GetFacingTile().WorldObject);
+            AddWorldObject(facing.WorldObject);
+        }
+
+        private void BeginProgress()
+        {
+            RequestTransitionReset?.Invoke();
+        }
+        
+        public void Progress()
+        {
+            foreach (var obj in WorldObjects)
+            {
+                obj.Progress();
+            }
         }
 
         private void AddWorldObject(WorldObject worldObject)
@@ -163,6 +187,7 @@ namespace Repair.Games
             
             spriteBatch.Draw(ContentChest.Pixel, new Rectangle((int) drawVector.X, (int) drawVector.Y, Map.TileSize, Map.TileSize), Color.White);
         }
-    }
 
+    }
+    
 }

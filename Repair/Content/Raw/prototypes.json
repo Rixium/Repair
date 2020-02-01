@@ -15,7 +15,8 @@
 		"Collidable":true,
 		"Stage": 1,
 		"TotalStages": 1,
-		"CanPickUp":true
+		"CanPickUp":true,
+		"CanUse":true
 	},
 	{
 		"ObjectName": [

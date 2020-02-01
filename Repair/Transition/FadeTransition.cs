@@ -19,6 +19,17 @@ namespace Repair.Transition
         private float _fade = 1.0f;
         
         public bool HasEnded() => Ended;
+
+        public FadeTransition(bool endedByDefault = false)
+        {
+            Ended = endedByDefault;
+
+            if (!Ended) return;
+
+            _fade = 0;
+            _fadingOut = true;
+            _fadingIn = false;
+        }
         
         public void Reset()
         {
