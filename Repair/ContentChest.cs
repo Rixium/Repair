@@ -31,8 +31,7 @@ namespace Repair
         
         public static Dictionary<string, Texture2D> Grass { get; set; }
         public static Texture2D Water { get; set; }
-        public static Texture2D WaterEdge { get; set; }
-        public static Texture2D WaterEdge2 { get; set; }
+        public static Texture2D[] WaterEdgeFrames { get; set; }
 
         public static void Initialize(ContentManager contentManager)
         {
@@ -61,8 +60,11 @@ namespace Repair
             TitleFont = _contentManager.Load<SpriteFont>("Fonts/title");
             MainMusic = _contentManager.Load<Song>("Music/main");
             Water = _contentManager.Load<Texture2D>("Images/water");
-            WaterEdge = _contentManager.Load<Texture2D>("Images/water_edge");
-            WaterEdge2 = _contentManager.Load<Texture2D>("Images/water_edge_2");
+
+            WaterEdgeFrames = new Texture2D[2];
+            WaterEdgeFrames[0] = _contentManager.Load<Texture2D>("Images/water_edge");
+            WaterEdgeFrames[1] = _contentManager.Load<Texture2D>("Images/water_edge_2");
+            
             ClickSound = _contentManager.Load<SoundEffect>("Sounds/click");
             SelectSound = _contentManager.Load<SoundEffect>("Sounds/select");
 

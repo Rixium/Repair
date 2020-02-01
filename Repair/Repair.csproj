@@ -47,6 +47,7 @@
     <Compile Include="External\FastNoise.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GameProperties.cs" />
+    <Compile Include="Games\Animation.cs" />
     <Compile Include="Games\Direction.cs" />
     <Compile Include="Games\IEntity.cs" />
     <Compile Include="Games\Map.cs" />

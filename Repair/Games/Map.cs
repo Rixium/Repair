@@ -1,10 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Repair.Helpers;
-using Repair.Notify;
 using Repair.Util;
 
 namespace Repair.Games
@@ -22,6 +19,9 @@ namespace Repair.Games
         private readonly Tile[,] _tiles;
         private float _totalDryness;
 
+        private Animation WaterEdgeAnimation;
+        private Animation WaterAnimation;
+
         public Map(int mapWidth, int mapHeight)
         {
             MapWidth = mapWidth;
@@ -29,6 +29,12 @@ namespace Repair.Games
             
             _tiles = WorldGenerator.Generate(this, mapWidth, mapHeight);
             CalculateDryness();
+            CreateAnimations();
+        }
+
+        private void CreateAnimations()
+        {
+            WaterEdgeAnimation = new Animation(ContentChest.WaterEdgeFrames, 1);
         }
 
         private void CalculateDryness()
@@ -75,17 +81,8 @@ namespace Repair.Games
                         var tileTop = _tiles[i, j].North;
                         if (tileTop != null && tileTop.IsDry)
                         {
-                            if (WaterEdgeUp)
-                            {
-                                spriteBatch.Draw(ContentChest.WaterEdge, new Vector2(i * TileSize, j * TileSize),
-                                    Color.White);
-                            }
-                            else
-                            {
-                                spriteBatch.Draw(ContentChest.WaterEdge2, new Vector2(i * TileSize, j * TileSize),
-                                    Color.White);
-                            }
-                            
+                            spriteBatch.Draw(WaterEdgeAnimation.Current, new Vector2(i * TileSize, j * TileSize),
+                                Color.White);
                         }
                         else
                         {
@@ -96,20 +93,9 @@ namespace Repair.Games
             }
         }
 
-        public bool WaterEdgeUp => WaterFrame == 1;
-        private int WaterFrame = 0;
-        private int MaxWaterFrame = 1;
-        private float FrameTimer = 0;
-        private float AnimationSpeed = 1f;
-
         public void Update(float delta)
         {
-            FrameTimer += delta;
-
-            if (FrameTimer < AnimationSpeed) return;
-            
-            WaterFrame = WaterFrame == 0 ? 1 : 0;
-            FrameTimer = 0;
+            WaterEdgeAnimation.Update(delta);
         }
 
         public Vector2 GetTilePositionVector(Tile tile) => new Vector2(tile.X * TileSize, tile.Y * TileSize);
