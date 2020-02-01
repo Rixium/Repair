@@ -30,5 +30,11 @@ namespace Repair.Notify
             ContentChest.NotifySound.Play();
             _notifications.Add(new Notification("Gamepad Disconnected"));
         }
+
+        public void OnRequestNotification(string text)
+        {
+            ContentChest.NotifySound.Play();
+            _notifications.Add(new Notification(text));
+        }
     }
 }

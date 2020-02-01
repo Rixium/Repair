@@ -8,12 +8,16 @@ namespace Repair.Screen
     {
         public Action RequestQuit { get; set; }
         public Action<IScreen> RequestScreenChange { get; set; }
+        public Action<string> RequestNotification { get; set; }
 
         private World _world;
 
         public GameScreen()
         {
-            _world = new World();
+            _world = new World
+            {
+                RequestNotification = s => RequestNotification?.Invoke(s)
+            };
         }
         
         public void Update(float delta)

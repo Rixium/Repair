@@ -81,6 +81,7 @@ namespace Repair
         {
             screen.RequestScreenChange = RequestScreenChange;
             screen.RequestQuit = RequestQuit;
+            screen.RequestNotification = _notifyManager.OnRequestNotification;
             _screenManager.SetScreen(screen);
         }
         

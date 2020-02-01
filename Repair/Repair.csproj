@@ -50,6 +50,7 @@
     <Compile Include="Games\Tile.cs" />
     <Compile Include="Games\World.cs" />
     <Compile Include="Games\WorldGenerator.cs" />
+    <Compile Include="Helpers\RenderHelper.cs" />
     <Compile Include="Input\GamepadInput.cs" />
     <Compile Include="Input\IInput.cs" />
     <Compile Include="Input\InputManager.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="Screen\MainMenuScreen.cs" />
     <Compile Include="Screen\ScreenManager.cs" />
     <Compile Include="Screen\SplashScreen.cs" />
+    <Compile Include="TileType.cs" />
     <Compile Include="Transition\FadeTransition.cs" />
     <Compile Include="Transition\ITransition.cs" />
     <Compile Include="UI\Button.cs" />

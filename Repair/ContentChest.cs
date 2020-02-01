@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -27,8 +29,9 @@ namespace Repair
         public static SoundEffect ClickSound { get; set; }
         public static SoundEffect SelectSound { get; set; }
         
-        public static Texture2D Grass { get; set; }
+        public static Dictionary<string, Texture2D> Grass { get; set; }
         public static Texture2D Water { get; set; }
+        public static Texture2D WaterEdge { get; set; }
 
         public static void Initialize(ContentManager contentManager)
         {
@@ -52,12 +55,20 @@ namespace Repair
             
             _loadInitialized = true;
             
+            Grass = new Dictionary<string, Texture2D>();
+
             TitleFont = _contentManager.Load<SpriteFont>("Fonts/title");
             MainMusic = _contentManager.Load<Song>("Music/main");
-            Grass = _contentManager.Load<Texture2D>("Images/tile");
             Water = _contentManager.Load<Texture2D>("Images/water");
+            WaterEdge = _contentManager.Load<Texture2D>("Images/water_edge");
             ClickSound = _contentManager.Load<SoundEffect>("Sounds/click");
             SelectSound = _contentManager.Load<SoundEffect>("Sounds/select");
+
+            foreach (var file in Directory.GetFiles(_contentManager.RootDirectory + "/Images/Grass"))
+            {
+                var fileName = Path.GetFileName(file).Split('.')[0];
+                Grass.Add(fileName, _contentManager.Load<Texture2D>($"Images/Grass/{fileName}"));
+            }
             
             OnLoaded?.Invoke();
         }

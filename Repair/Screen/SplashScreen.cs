@@ -12,6 +12,7 @@ namespace Repair.Screen
 
         public Action RequestQuit { get; set; }
         public Action<IScreen> RequestScreenChange { get; set; }
+        public Action<string> RequestNotification { get; set; }
 
         public SplashScreen()
         {

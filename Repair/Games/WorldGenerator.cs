@@ -5,7 +5,7 @@ namespace Repair.Games
     public class WorldGenerator
     {
 
-        public static Tile[,] Generate(int width, int height)
+        public static Tile[,] Generate(Map map, int width, int height)
         {
             var noise = new FastNoise();
             noise.SetNoiseType(FastNoise.NoiseType.PerlinFractal);
@@ -21,14 +21,18 @@ namespace Repair.Games
 
                     tiles[x, y] = new Tile()
                     {
+                        X = x,
+                        Y = y,
+                        Map = map,
                         Dryness = dryness
                     };
                     
                 }
             }
 
+            
             return tiles;
         }
-        
+
     }
 }

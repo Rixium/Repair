@@ -8,6 +8,7 @@ namespace Repair.Screen
     {
         Action RequestQuit { get; set; }
         Action<IScreen> RequestScreenChange { get; set; }
+        Action<string> RequestNotification { get; set; }
         
         void Update(float delta);
 
