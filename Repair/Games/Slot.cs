@@ -20,5 +20,15 @@ namespace Repair.Games
             Item = item;
             return true;
         }
+
+        public void Remove(int count)
+        {
+            Count -= count;
+
+            if (Count <= 0)
+            {
+                Item = null;
+            }
+        }
     }
 }

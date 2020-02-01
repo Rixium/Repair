@@ -1,9 +1,8 @@
 namespace Repair.UI
 {
-    public enum Origin
+    public class Origin
     {
-        Center,
-        Left,
-        Right
+        public float X { get; set; }
+        public float Y { get; set; }
     }
 }

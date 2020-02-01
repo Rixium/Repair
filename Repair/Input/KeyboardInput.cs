@@ -68,6 +68,11 @@ namespace Repair.Input
                 InputManager.OnNextSlotPressed?.Invoke();
             }
 
+            if (state.IsKeyDown(Keys.Space) && _lastState.IsKeyUp(Keys.Space))
+            {
+                InputManager.OnPickupPressed?.Invoke();
+            }
+
             _lastState = state;
         }
     }

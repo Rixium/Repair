@@ -14,7 +14,7 @@ namespace Repair.UI
         private Vector2 _position;
         private Vector2 _stringMeasurements;
 
-        public Button(SpriteFont font, string text, Color color, Vector2 position, Origin origin)
+        public Button(SpriteFont font, string text, Color color, Vector2 position)
         {
             _font = font;
             _text = text;

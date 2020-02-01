@@ -75,7 +75,15 @@ namespace Repair.Input
             {
                 InputManager.OnNextSlotPressed?.Invoke();
             }
-            
+
+            if (state.Buttons.X == ButtonState.Pressed)
+            {
+                if (_lastState.Buttons.X == ButtonState.Released)
+                {
+                    InputManager.OnPickupPressed?.Invoke();
+                }
+            }
+
             _lastState = state;
         }
     }

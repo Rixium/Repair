@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Repair.Input;
@@ -10,6 +11,7 @@ namespace Repair.Games
     public class World
     {
 
+        private List<WorldObject> WorldObjects = new List<WorldObject>(); 
         public UIManager UIManager;
         public int MapSize { get; set; } = 1000;
 
@@ -29,8 +31,9 @@ namespace Repair.Games
             InputManager.OnRightHeld = () => Player.Move(1, 0);
             InputManager.OnNextSlotPressed = () => UIManager.NextSlot();
             InputManager.OnLastSlotPressed = () => UIManager.LastSlot();
-            InputManager.OnInteractPressed = () => UseItem();
-
+            InputManager.OnInteractPressed = UseItem;
+            InputManager.OnPickupPressed = ProgressWorldObjects;
+            
             Map.RequestNotification = s => RequestNotification?.Invoke(s);
 
             UIManager = new UIManager();
@@ -39,11 +42,31 @@ namespace Repair.Games
             SetupCamera();
         }
 
+        private void ProgressWorldObjects()
+        {
+            foreach(var obj in WorldObjects)
+            {
+                obj.Progress();
+            }
+        }
+
         private void UseItem()
         {
             var slot = UIManager.GetSelectedSlot();
             if (slot.Item == null) return;
             if (!slot.Item.Usable) return;
+
+            var protoType = ContentChest.ProtoTypes[slot.Item.FileName];
+            var successful = protoType.CreateInstance(Player.Tile);
+            if (!successful) return;
+            
+            slot.Remove(1);
+            AddWorldObject(Player.Tile.WorldObject);
+        }
+
+        private void AddWorldObject(WorldObject worldObject)
+        {
+            WorldObjects.Add(worldObject);
         }
 
         private void SetupPlayer()

@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
+using Newtonsoft.Json;
+using Repair.Games;
 
 namespace Repair
 {
@@ -34,6 +37,8 @@ namespace Repair
         public static Texture2D[] WaterEdgeFrames { get; set; }
         
         public static Dictionary<string, Texture2D> Items { get; set; }
+        public static Dictionary<string, Texture2D> WorldObjects { get; set; }
+        public static Dictionary<string, WorldObject> ProtoTypes { get; set; }
         public static Texture2D SlotBorder { get; set; }
         public static Texture2D SlotBackground { get; set; }
         public static SpriteFont SlotFont { get; set; }
@@ -62,6 +67,8 @@ namespace Repair
             
             Grass = new Dictionary<string, Texture2D>();
             Items = new Dictionary<string, Texture2D>();
+            WorldObjects = new Dictionary<string, Texture2D>();
+            ProtoTypes = new Dictionary<string, WorldObject>();
 
             TitleFont = _contentManager.Load<SpriteFont>("Fonts/title");
             MainMusic = _contentManager.Load<Song>("Music/main");
@@ -85,13 +92,28 @@ namespace Repair
                 var fileName = Path.GetFileName(file).Split('.')[0];
                 Items.Add(fileName, _contentManager.Load<Texture2D>($"Images/Items/{fileName}"));
             }
+            
+            foreach (var file in Directory.GetFiles(_contentManager.RootDirectory + "/Images/WorldObjects"))
+            {
+                var fileName = Path.GetFileName(file).Split('.')[0];
+                WorldObjects.Add(fileName, _contentManager.Load<Texture2D>($"Images/WorldObjects/{fileName}"));
+            }
 
             SlotBorder = _contentManager.Load<Texture2D>("Images/slot_border");
             SlotBackground = _contentManager.Load<Texture2D>("Images/slot_background");
             SlotFont = _contentManager.Load<SpriteFont>("Fonts/slot");
             
+            var text = File.ReadAllText($"{_contentManager.RootDirectory}/Raw/prototypes.json", Encoding.UTF8);
+            var prototypes = JsonConvert.DeserializeObject<WorldObject[]>(text);
+            
+            foreach(var prototype in prototypes)
+            {
+                ProtoTypes.Add(prototype.FileName[0], prototype);
+            }
+            
             OnLoaded?.Invoke();
+            
         }
-        
+
     }
 }

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Net.Mime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Repair.Helpers;
@@ -8,6 +10,8 @@ namespace Repair.Games
 {
     public class Map
     {
+
+        public Queue<WorldObject> _objectQueue = new Queue<WorldObject>();
         
         public int MapWidth { get; set; }
 
@@ -89,8 +93,28 @@ namespace Repair.Games
                             spriteBatch.Draw(ContentChest.Water, new Vector2(i * TileSize, j * TileSize), Color.White);
                         }
                     }
+
+                    if (_tiles[i, j].WorldObject != null)
+                    {
+                        _objectQueue.Enqueue(_tiles[i, j].WorldObject);
+                    }
                 }
             }
+
+            while (_objectQueue.Count > 0)
+            {
+                var obj = _objectQueue.Dequeue();
+                var image = ContentChest.WorldObjects[$"{obj.FileName[obj.Stage - 1]}"];
+
+                var objectOrigin = obj.Origins[obj.Stage - 1];
+                var origin = new Vector2(objectOrigin.X, objectOrigin.Y);
+                
+                var drawPosition = new Vector2(obj.Tile.X * TileSize + TileSize / 2,
+                    obj.Tile.Y * TileSize + TileSize / 2);
+                
+                spriteBatch.Draw(image, drawPosition, null, Color.White, 0, origin, 1,SpriteEffects.None, 0f);
+            }
+            
         }
 
         public void Update(float delta)
@@ -120,5 +144,6 @@ namespace Repair.Games
 
             return tile;
         }
+
     }
 }

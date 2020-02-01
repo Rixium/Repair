@@ -30,8 +30,7 @@ namespace Repair.Screen
             var size = ContentChest.ButtonFont.MeasureString(startText);
             var middle = new Vector2(ScreenProperties.ScreenWidth / 2.0f - size.X / 2, ScreenProperties.ScreenHeight / 2.0f);
             
-            var startButton = new Button(ContentChest.ButtonFont, startText, Color.Black, middle,
-                Origin.Center)
+            var startButton = new Button(ContentChest.ButtonFont, startText, Color.Black, middle)
             {
                 OnClick = OnStartClicked
             };
@@ -40,7 +39,7 @@ namespace Repair.Screen
             size = ContentChest.ButtonFont.MeasureString(quitText);
             middle = new Vector2(ScreenProperties.ScreenWidth / 2.0f - size.X / 2, ScreenProperties.ScreenHeight / 2.0f + 40);
 
-            var quitButton = new Button(ContentChest.ButtonFont, quitText, Color.Black, middle, Origin.Center)
+            var quitButton = new Button(ContentChest.ButtonFont, quitText, Color.Black, middle)
             {
                 OnClick = OnQuitClicked
             };
