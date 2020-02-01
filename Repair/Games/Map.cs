@@ -4,11 +4,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Repair.Helpers;
 using Repair.Notify;
+using Repair.Util;
 
 namespace Repair.Games
 {
     public class Map
     {
+        
+        public int TileSize { get; set; } = 24;
         public Action<string> RequestNotification { get; set; }
         
         private readonly Tile[,] _tiles;
@@ -35,13 +38,13 @@ namespace Repair.Games
             return _tiles[x, y];
         }
 
-        public void Draw(SpriteBatch spriteBatch, int xOffset, int yOffset)
+        public void Draw(SpriteBatch spriteBatch, Camera camera)
         {
-            var tileStartX = -(xOffset / 24);
-            var tileEndX = -(xOffset / 24) + (ScreenProperties.ScreenWidth / 24) + 2;
-            var tileStartY = -(yOffset / 24);
-            var tileEndY = -(yOffset / 24) + (ScreenProperties.ScreenHeight / 24) + 2;
-
+            var tileStartX = (camera.X - ScreenProperties.ScreenWidth) / TileSize - 1;
+            var tileStartY = (camera.Y - ScreenProperties.ScreenHeight) / TileSize - 1;
+            var tileEndX = (camera.X + ScreenProperties.ScreenWidth) / TileSize + 1;
+            var tileEndY = (camera.Y + ScreenProperties.ScreenHeight) / TileSize + 1;
+            
             tileStartX = MathHelper.Clamp(tileStartX, 0, _tiles.GetLength(0));
             tileEndX = MathHelper.Clamp(tileEndX, 0, _tiles.GetLength(0));
             tileStartY = MathHelper.Clamp(tileStartY, 0, _tiles.GetLength(1));
@@ -57,7 +60,7 @@ namespace Repair.Games
                         try
                         {
                             spriteBatch.Draw(ContentChest.Grass[$"grass_{imageName}"],
-                                new Vector2(i * 24 + xOffset, j * 24 + yOffset), Color.White);
+                                new Vector2(i * TileSize, j * TileSize), Color.White);
                         }
                         catch (Exception)
                         {
@@ -67,15 +70,15 @@ namespace Repair.Games
                     else
                     {
                         var tileTop = _tiles[i, j].North;
-                        spriteBatch.Draw(ContentChest.Grass["grass_"], new Vector2(i * 24 + xOffset, j * 24 + yOffset), Color.White * _tiles[i, j].Dryness);
+                        spriteBatch.Draw(ContentChest.Grass["grass_"], new Vector2(i * TileSize, j * TileSize), Color.White * _tiles[i, j].Dryness);
                         
                         if (tileTop != null && tileTop.IsDry)
                         {
-                            spriteBatch.Draw(ContentChest.WaterEdge, new Vector2(i * 24 + xOffset, j * 24 + yOffset), Color.White * 0.5f);
+                            spriteBatch.Draw(ContentChest.WaterEdge, new Vector2(i * TileSize, j * TileSize), Color.White * 0.5f);
                         }
                         else
                         {
-                            spriteBatch.Draw(ContentChest.Water, new Vector2(i * 24 + xOffset, j * 24 + yOffset), Color.White * 0.5f);
+                            spriteBatch.Draw(ContentChest.Water, new Vector2(i * TileSize, j * TileSize), Color.White * 0.5f);
                         }
                     }
                 }

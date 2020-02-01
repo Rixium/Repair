@@ -71,6 +71,7 @@
     <Compile Include="Transition\ITransition.cs" />
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\Origin.cs" />
+    <Compile Include="Util\Camera.cs" />
     <Compile Include="Weather\WeatherData.cs" />
     <Compile Include="Weather\WeatherInformation.cs" />
     <Compile Include="Weather\WeatherManager.cs" />
