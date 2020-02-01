@@ -41,10 +41,15 @@ namespace Repair.Screen
         public void Draw(SpriteBatch spriteBatch)
         {
             _activeScreen?.Draw(spriteBatch);
-
-            if (_transition.HasEnded()) return;
+            
             spriteBatch.Begin();
-            _transition.Draw(spriteBatch);
+            _activeScreen?.UIManager?.Draw(spriteBatch);
+
+            if (!_transition.HasEnded())
+            {
+                _transition.Draw(spriteBatch);
+            }
+
             spriteBatch.End();
         }
         

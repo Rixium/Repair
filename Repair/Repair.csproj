@@ -50,8 +50,11 @@
     <Compile Include="Games\Animation.cs" />
     <Compile Include="Games\Direction.cs" />
     <Compile Include="Games\IEntity.cs" />
+    <Compile Include="Games\Inventory.cs" />
+    <Compile Include="Games\Item.cs" />
     <Compile Include="Games\Map.cs" />
     <Compile Include="Games\Player.cs" />
+    <Compile Include="Games\Slot.cs" />
     <Compile Include="Games\Tile.cs" />
     <Compile Include="Games\World.cs" />
     <Compile Include="Games\WorldGenerator.cs" />
@@ -76,6 +79,7 @@
     <Compile Include="Transition\ITransition.cs" />
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\Origin.cs" />
+    <Compile Include="UI\UIManager.cs" />
     <Compile Include="Util\Camera.cs" />
     <Compile Include="Util\Randomizer.cs" />
     <Compile Include="Weather\WeatherData.cs" />

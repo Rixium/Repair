@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Repair.Input;
+using Repair.UI;
 using Repair.Util;
 
 namespace Repair.Games
@@ -9,6 +10,7 @@ namespace Repair.Games
     public class World
     {
 
+        public UIManager UIManager;
         public int MapSize { get; set; } = 1000;
 
         private Camera _camera;
@@ -32,6 +34,8 @@ namespace Repair.Games
 
             SetupPlayer();
             SetupCamera();
+            
+            UIManager = new UIManager();
         }
 
         private void SetupPlayer()
@@ -64,7 +68,6 @@ namespace Repair.Games
         {
             Map.Update(delta);
             Player.Update(delta);
-            
             _camera.Update(delta);
         }
 
@@ -73,8 +76,8 @@ namespace Repair.Games
             spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, null, null, null, _camera.Get());
 
             Map.Draw(spriteBatch, _camera);
-
             DrawPlayer(spriteBatch);
+            
             spriteBatch.End();
         }
 

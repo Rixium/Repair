@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework.Graphics;
 using Repair.Games;
+using Repair.UI;
 
 namespace Repair.Screen
 {
@@ -9,6 +10,7 @@ namespace Repair.Screen
         public Action RequestQuit { get; set; }
         public Action<IScreen> RequestScreenChange { get; set; }
         public Action<string> RequestNotification { get; set; }
+        public UIManager UIManager { get; set; }
 
         private World _world;
 
@@ -18,6 +20,8 @@ namespace Repair.Screen
             {
                 RequestNotification = s => RequestNotification?.Invoke(s)
             };
+
+            UIManager = _world.UIManager;
         }
         
         public void Update(float delta)

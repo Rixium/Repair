@@ -2,6 +2,7 @@ using System;
 using System.Timers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Repair.UI;
 
 namespace Repair.Screen
 {
@@ -13,6 +14,7 @@ namespace Repair.Screen
         public Action RequestQuit { get; set; }
         public Action<IScreen> RequestScreenChange { get; set; }
         public Action<string> RequestNotification { get; set; }
+        public UIManager UIManager { get; set; }
 
         public SplashScreen()
         {

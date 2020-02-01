@@ -7,12 +7,12 @@ namespace Repair.Util
 {
     public class Camera
     {
-        public int X;
-        public int Y;
+        public float X;
+        public float Y;
         public float Scale = 2;
         public const int MaxZoom = 2;
         public const int MinZoom = 2;
-        public int ScrollSpeed { get; } = 3;
+        public float ScrollSpeed { get; } = 0.5f;
 
         public IEntity FollowTarget { get; set; }
         
@@ -50,8 +50,24 @@ namespace Repair.Util
             
             positionVector -= (positionVector - targetVector) * FollowTarget.MovementPercentage;
 
-            X = (int) positionVector.X;
-            Y = (int) positionVector.Y;
+            if (positionVector.X < X)
+            {
+                X -= ScrollSpeed * Math.Abs(positionVector.X - X) / 10;
+            }
+
+            if (positionVector.X > X)
+            {
+                X += ScrollSpeed * Math.Abs(positionVector.X - X) / 10;
+            }
+
+            if (positionVector.Y < Y)
+            {
+                Y -= ScrollSpeed * Math.Abs(positionVector.Y - Y) / 10;
+            }
+            if (positionVector.Y > Y)
+            {
+                Y += ScrollSpeed * Math.Abs(positionVector.Y - Y) / 10;
+            }
         }
         
         public Vector2 ScreenToWorld(Vector2 screenPosition) => 
