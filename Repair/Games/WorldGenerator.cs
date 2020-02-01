@@ -18,11 +18,7 @@ namespace Repair.Games
                 for (var y = 0; y < height; y++)
                 {
                     var dryness = noise.GetNoise(x, y);
-                    if (dryness > 0.2f)
-                    {
-                        dryness = 1;
-                    }
-                    
+
                     tiles[x, y] = new Tile()
                     {
                         Dryness = dryness

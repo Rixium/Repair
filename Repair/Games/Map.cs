@@ -28,9 +28,11 @@ namespace Repair.Games
             {
                 for (var j = tileStartY; j < tileEndY; j++)
                 {
-                    if (_tiles[i, j].Dryness >= 0.9)
+                    if (_tiles[i, j].Dryness >= 0.2)
                     {
-                        spriteBatch.Draw(ContentChest.Grass, new Vector2(i * 24 + xOffset, j * 24 + yOffset), Color.White);
+                        var dry = ((int) (_tiles[i, j].Dryness * 255));
+                        var color = new Color(119, 119 + dry, 119);
+                        spriteBatch.Draw(ContentChest.Grass, new Vector2(i * 24 + xOffset, j * 24 + yOffset), color);
                     }
                     else
                     {
