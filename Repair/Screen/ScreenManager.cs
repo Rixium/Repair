@@ -15,6 +15,8 @@ namespace Repair.Screen
             _transition = new FadeTransition();
         }
 
+        public bool IsReady => _transition.HasEnded() && _activeScreen != null;
+
         public void SetScreen(IScreen screen)
         {
             _transition.OnTransitionOutEnded = () =>

@@ -99,9 +99,11 @@ namespace Repair
             
             var delta = gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
             _notifyManager.Update(delta);
-            InputManager.Update(delta);
+
+            if (_screenManager.IsReady)
+                InputManager.Update(delta);
+
             _screenManager.Update(delta);
-            
             base.Update(gameTime);
         }
 

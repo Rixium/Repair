@@ -17,13 +17,13 @@ namespace Repair.Games
         private readonly Tile[,] _tiles;
         private float _totalDryness;
 
-        public Map()
+        public Map(int mapWidth, int mapHeight)
         {
-            _tiles = WorldGenerator.Generate(this, 500, 500);
-            CalcualteDryness();
+            _tiles = WorldGenerator.Generate(this, mapWidth, mapHeight);
+            CalculateDryness();
         }
 
-        private void CalcualteDryness()
+        private void CalculateDryness()
         {
             foreach (var tile in _tiles)
             {
@@ -87,26 +87,9 @@ namespace Repair.Games
 
         public void Update(float delta)
         {
-            if (_totalDryness > 70000)
-            {
-                return;
-            }
             
-            for (var i = 0; i < _tiles.GetLength(0); i++)
-            {
-                for (var j = 0; j < _tiles.GetLength(1); j++)
-                {
-                    _totalDryness -= _tiles[i, j].Dryness;
-                    _tiles[i, j].Dryness += 0.1f * delta;
-                    _totalDryness += _tiles[i, j].Dryness;
-                }
-            }
-            
-            if (_totalDryness > 70000)
-            {
-                RequestNotification?.Invoke("Flood Subsided");
-            }
         }
 
+        public Vector2 GetTilePositionVector(Tile tile) => new Vector2(tile.X * TileSize, tile.Y * TileSize);
     }
 }

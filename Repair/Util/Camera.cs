@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Repair.Games;
 
 namespace Repair.Util
 {
@@ -10,6 +11,8 @@ namespace Repair.Util
         public const int MaxZoom = 3;
         public int ScrollSpeed { get; } = 3;
 
+        public IEntity FollowTarget { get; set; }
+        
         public static Vector2 ViewportCenter => new Vector2(ScreenProperties.ScreenWidth * 0.5f, ScreenProperties.ScreenHeight * 0.5f);
 
         public Camera(int startX, int startY)
@@ -35,11 +38,23 @@ namespace Repair.Util
             Scale = MathHelper.Clamp(Scale, 1, MaxZoom);
         }
 
+        public void Update(float delta)
+        {
+            if (FollowTarget == null) return;
+            X = (int) FollowTarget.Position.X;
+            Y = (int) FollowTarget.Position.Y;
+        }
+        
         public Vector2 ScreenToWorld(Vector2 screenPosition) => 
             Vector2.Transform(screenPosition,
                 Matrix.Invert(Get()));
 
         public Vector2 WorldToScreen(Vector2 worldPosition) => Vector2.Transform(worldPosition, Get());
-        
+
+        public void SetFollowTarget(IEntity entity)
+        {
+            FollowTarget = entity;
+        }
+
     }
 }
