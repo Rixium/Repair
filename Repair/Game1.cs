@@ -77,7 +77,8 @@ namespace Repair
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             
-            ContentChest.BasicLoad(); 
+            ContentChest.BasicLoad();
+            
             RequestScreenChange(new SplashScreen());
         }
 

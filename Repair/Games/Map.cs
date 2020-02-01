@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -47,10 +48,10 @@ namespace Repair.Games
 
         public void Draw(SpriteBatch spriteBatch, Camera camera)
         {
-            var tileStartX = (camera.X - ScreenProperties.ScreenWidth) / TileSize - 1;
-            var tileStartY = (camera.Y - ScreenProperties.ScreenHeight) / TileSize - 1;
-            var tileEndX = (camera.X + ScreenProperties.ScreenWidth) / TileSize + 1;
-            var tileEndY = (camera.Y + ScreenProperties.ScreenHeight) / TileSize + 1;
+            var tileStartX = (camera.X - ScreenProperties.ScreenWidth / 4) / TileSize - 1;
+            var tileStartY = (camera.Y - ScreenProperties.ScreenHeight / 4) / TileSize - 1;
+            var tileEndX = (camera.X + ScreenProperties.ScreenWidth / 4) / TileSize + 1;
+            var tileEndY = (camera.Y + ScreenProperties.ScreenHeight / 4) / TileSize + 1;
             
             tileStartX = MathHelper.Clamp(tileStartX, 0, MapWidth);
             tileEndX = MathHelper.Clamp(tileEndX, 0, MapWidth);
@@ -64,15 +65,10 @@ namespace Repair.Games
                     if (_tiles[i, j].IsDry)
                     {
                         var imageName = RenderHelper.CreateNeighborString(_tiles[i, j]);
-                        try
-                        {
-                            spriteBatch.Draw(ContentChest.Grass[$"grass_{imageName}"],
+                        ContentChest.Grass.TryGetValue($"grass_{imageName}", out var texture);
+                        if (texture == null) texture = ContentChest.Grass["grass_"];
+                        spriteBatch.Draw(texture,
                                 new Vector2(i * TileSize, j * TileSize), Color.White);
-                        }
-                        catch (Exception)
-                        {
-                            Console.WriteLine(imageName);
-                        }
                     }
                     else
                     {

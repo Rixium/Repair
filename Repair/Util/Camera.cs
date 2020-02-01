@@ -10,7 +10,8 @@ namespace Repair.Util
         public int X;
         public int Y;
         public float Scale = 2;
-        public const int MaxZoom = 3;
+        public const int MaxZoom = 2;
+        public const int MinZoom = 2;
         public int ScrollSpeed { get; } = 3;
 
         public IEntity FollowTarget { get; set; }
@@ -37,7 +38,7 @@ namespace Repair.Util
         public void Zoom(float delta)
         {
             Scale += delta;
-            Scale = MathHelper.Clamp(Scale, 1, MaxZoom);
+            Scale = MathHelper.Clamp(Scale, MinZoom, MaxZoom);
         }
 
         public void Update(float delta)

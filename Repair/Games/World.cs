@@ -9,7 +9,7 @@ namespace Repair.Games
     public class World
     {
 
-        public int MapSize { get; set; } = 500;
+        public int MapSize { get; set; } = 1000;
 
         private Camera _camera;
         public Action<string> RequestNotification { get; set; }

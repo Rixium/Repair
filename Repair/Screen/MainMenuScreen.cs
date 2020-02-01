@@ -21,7 +21,7 @@ namespace Repair.Screen
         public MainMenuScreen()
         {
             MediaPlayer.Volume = 0.5f;
-            MediaPlayer.Play(ContentChest.MainMusic);
+            //MediaPlayer.Play(ContentChest.MainMusic); // TODO UNCOMMENT
 
             var startButton = new Button(ContentChest.ButtonFont, "Start", Color.Black, new Vector2(20, 100),
                 Origin.Center)

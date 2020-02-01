@@ -22,12 +22,20 @@ namespace Repair.Helpers
 
             if (northTile != null && !northTile.IsDry)
                 StringBuilder.Append("n_");
+            if (northEastTile != null && !northEastTile.IsDry)
+                StringBuilder.Append("ne_");
             if (eastTile != null && !eastTile.IsDry)
                 StringBuilder.Append("e_");
+            if (southEast != null && !southEast.IsDry)
+                StringBuilder.Append("se_");
             if (southTile != null && !southTile.IsDry)
                 StringBuilder.Append("s_");
+            if (southWest != null && !southWest.IsDry)
+                StringBuilder.Append("sw_");
             if (westTile != null && !westTile.IsDry)
                 StringBuilder.Append("w_");
+            if (northWest != null && !northWest.IsDry)
+                StringBuilder.Append("nw_");
 
             return StringBuilder.ToString();
         }

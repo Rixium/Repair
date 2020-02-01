@@ -15,7 +15,7 @@ namespace Repair.Transition
         public Action OnTransitionInEnded { get; set; }
         public Action OnTransitionOutEnded { get; set; }
 
-        private const float FadeSpeed = 0.5f;
+        private const float FadeSpeed = 2f;
         private float _fade = 1.0f;
         
         public bool HasEnded() => Ended;
