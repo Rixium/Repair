@@ -32,7 +32,7 @@ namespace Repair.Games
             InputManager.OnNextSlotPressed = () => UIManager.NextSlot();
             InputManager.OnLastSlotPressed = () => UIManager.LastSlot();
             InputManager.OnInteractPressed = UseItem;
-            InputManager.OnPickupPressed = ProgressWorldObjects;
+            InputManager.OnPickupPressed = PickupWorldObject;
             
             Map.RequestNotification = s => RequestNotification?.Invoke(s);
 
@@ -42,26 +42,43 @@ namespace Repair.Games
             SetupCamera();
         }
 
-        private void ProgressWorldObjects()
+        private void PickupWorldObject()
         {
-            foreach(var obj in WorldObjects)
+            if (Player.TargetTile != Player.Tile) return;
+            
+            var facingTile = Player.GetFacingTile();
+            var obj = facingTile?.WorldObject;
+            if (obj == null) return;
+            if (!obj.CanPickup) return;
+            var item = new Item()
             {
-                obj.Progress();
-            }
+                FileName = obj.FileName[0],
+                ItemName = obj.ObjectName[0],
+                Usable = true
+            };
+
+            var successful = UIManager.Inventory.AddItem(item, 1);
+
+            if (!successful) return;
+            
+            WorldObjects.Remove(obj);
+            facingTile.WorldObject = null;
         }
 
         private void UseItem()
         {
+            if (Player.TargetTile != Player.Tile) return;
+            
             var slot = UIManager.GetSelectedSlot();
             if (slot.Item == null) return;
             if (!slot.Item.Usable) return;
 
             var protoType = ContentChest.ProtoTypes[slot.Item.FileName];
-            var successful = protoType.CreateInstance(Player.Tile);
+            var successful = protoType.CreateInstance(Player.GetFacingTile());
             if (!successful) return;
             
             slot.Remove(1);
-            AddWorldObject(Player.Tile.WorldObject);
+            AddWorldObject(Player.GetFacingTile().WorldObject);
         }
 
         private void AddWorldObject(WorldObject worldObject)
@@ -110,7 +127,9 @@ namespace Repair.Games
 
         private bool TryMove(Tile tile)
         {
-            return tile != null && tile.IsDry;
+            if (tile == null) return false;
+            if (tile.WorldObject != null && tile.WorldObject.Collidable) return false;
+            return tile.IsDry;
         }
 
         private void Scroll(int x, int y)

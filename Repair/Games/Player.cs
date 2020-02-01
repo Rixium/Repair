@@ -11,11 +11,30 @@ namespace Repair.Games
         public Tile Tile { get; set; }
         public Tile TargetTile { get; set; }
 
+        public Direction Facing = Direction.Down;
+
         private float Speed = 5f;
         public int PlayerSize { get; set; } = 24;
         public float MovementPercentage { get; set; }
         
         public Inventory Inventory { get; set; }
+
+        public Tile GetFacingTile()
+        {
+            switch (Facing)
+            {
+                case Direction.Down:
+                    return Tile.South;
+                case Direction.Left:
+                    return Tile.West;
+                case Direction.Right:
+                    return Tile.East;
+                case Direction.Up:
+                    return Tile.North;
+                default:
+                    return Tile;
+            }
+        }
 
         public Player(Tile startTile, Inventory startingInventory)
         {
@@ -45,19 +64,34 @@ namespace Repair.Games
             if (Tile != TargetTile) return;
             
             var moveTile = Tile.West;
+            var dir = Direction.Left;
 
-            if (x > 0) moveTile = Tile.East;
-            if (y < 0) moveTile = Tile.North;
-            if (y > 0) moveTile = Tile.South;
+            if (x > 0)
+            {
+                moveTile = Tile.East;
+                dir = Direction.Right;
+            }
+
+            if (y < 0)
+            {
+                moveTile = Tile.North;
+                dir = Direction.Up;
+            }
+
+            if (y > 0)
+            {
+                moveTile = Tile.South;
+                dir = Direction.Down;
+            }
 
             var shouldMove = OnTryMove.Invoke(moveTile);
 
-            if (shouldMove)
-            {
-                MovementPercentage = 0;
-                TargetTile = moveTile;
-            }
+            Facing = dir;
 
+            if (!shouldMove) return;
+            
+            MovementPercentage = 0;
+            TargetTile = moveTile;
         }
 
     }

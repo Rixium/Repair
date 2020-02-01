@@ -7,6 +7,7 @@ namespace Repair.Games
 
         public Origin[] Origins;
         public string[] FileName { get; set; }
+        public bool CanPickup { get; set; }
         public bool Collidable { get; set; }
         public int DrynessRadius { get; set; }
         public float DrynessEffect { get; set; }
@@ -33,7 +34,8 @@ namespace Repair.Games
                 Stage = Stage,
                 TotalStages = TotalStages,
                 StageModifier =  StageModifier,
-                ProgressOnSleep = ProgressOnSleep
+                ProgressOnSleep = ProgressOnSleep,
+                CanPickup = CanPickup
             };
 
             tile.WorldObject = worldObject;

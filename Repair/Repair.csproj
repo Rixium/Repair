@@ -52,6 +52,7 @@
     <Compile Include="Games\IEntity.cs" />
     <Compile Include="Games\Inventory.cs" />
     <Compile Include="Games\Item.cs" />
+    <Compile Include="Games\ItemData.cs" />
     <Compile Include="Games\Map.cs" />
     <Compile Include="Games\Player.cs" />
     <Compile Include="Games\Slot.cs" />
