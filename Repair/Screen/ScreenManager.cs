@@ -42,7 +42,7 @@ namespace Repair.Screen
         {
             _activeScreen?.Draw(spriteBatch);
             
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp);
             _activeScreen?.UIManager?.Draw(spriteBatch);
 
             if (!_transition.HasEnded())

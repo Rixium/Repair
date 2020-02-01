@@ -14,11 +14,14 @@ namespace Repair.Games
         private float Speed = 5f;
         public int PlayerSize { get; set; } = 24;
         public float MovementPercentage { get; set; }
+        
+        public Inventory Inventory { get; set; }
 
-        public Player(Tile startTile)
+        public Player(Tile startTile, Inventory startingInventory)
         {
             Tile = startTile;
             TargetTile = startTile;
+            Inventory = startingInventory;
         }
 
         public void Update(float delta)

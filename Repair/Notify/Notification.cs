@@ -23,10 +23,10 @@ namespace Repair.Notify
                 LeftPosition.Y = value;
                 RightPosition.Y = value;
                 MidRectangle.Y = value;
-                TextPosition.Y = value;
+                TextPosition.Y = value + ContentChest.NotifyMid.Height / 2 - _notifyTextSize.Y / 2;
                 _y = value;
             }
-            get { return _y; }
+            get => _y;
         }
 
         private Vector2 _notifyTextSize;
@@ -41,7 +41,7 @@ namespace Repair.Notify
             LeftPosition = new Vector2(ScreenProperties.ScreenWidth - ScreenPadding - ContentChest.NotifyRight.Width - TextPadding -_notifyTextSize.X - TextPadding - ContentChest.NotifyLeft.Width, Y);
             RightPosition = new Vector2(ScreenProperties.ScreenWidth - ScreenPadding - ContentChest.NotifyRight.Width, Y);
             MidRectangle = new Rectangle((int) (ScreenProperties.ScreenWidth - ScreenPadding - ContentChest.NotifyRight.Width - TextPadding - _notifyTextSize.X - TextPadding), Y, (int) _notifyTextSize.X + TextPadding * 2, ContentChest.NotifyMid.Height);
-            TextPosition = new Vector2(ScreenProperties.ScreenWidth - ScreenPadding - ContentChest.NotifyRight.Width - TextPadding - _notifyTextSize.X, Y);
+            TextPosition = new Vector2(ScreenProperties.ScreenWidth - ScreenPadding - ContentChest.NotifyRight.Width - TextPadding - _notifyTextSize.X, Y + ContentChest.NotifyMid.Height / 2 - _notifyTextSize.Y / 2);
         }
 
 

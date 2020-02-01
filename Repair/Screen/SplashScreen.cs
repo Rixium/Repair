@@ -44,7 +44,7 @@ namespace Repair.Screen
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp);
             spriteBatch.Draw(ContentChest.Splash, _splashRectangle, Color.White);
             spriteBatch.End();
         }

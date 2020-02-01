@@ -32,6 +32,11 @@ namespace Repair
         public static Dictionary<string, Texture2D> Grass { get; set; }
         public static Texture2D Water { get; set; }
         public static Texture2D[] WaterEdgeFrames { get; set; }
+        
+        public static Dictionary<string, Texture2D> Items { get; set; }
+        public static Texture2D SlotBorder { get; set; }
+        public static Texture2D SlotBackground { get; set; }
+        public static SpriteFont SlotFont { get; set; }
 
         public static void Initialize(ContentManager contentManager)
         {
@@ -56,6 +61,7 @@ namespace Repair
             _loadInitialized = true;
             
             Grass = new Dictionary<string, Texture2D>();
+            Items = new Dictionary<string, Texture2D>();
 
             TitleFont = _contentManager.Load<SpriteFont>("Fonts/title");
             MainMusic = _contentManager.Load<Song>("Music/main");
@@ -73,6 +79,16 @@ namespace Repair
                 var fileName = Path.GetFileName(file).Split('.')[0];
                 Grass.Add(fileName, _contentManager.Load<Texture2D>($"Images/Grass/{fileName}"));
             }
+
+            foreach (var file in Directory.GetFiles(_contentManager.RootDirectory + "/Images/Items"))
+            {
+                var fileName = Path.GetFileName(file).Split('.')[0];
+                Items.Add(fileName, _contentManager.Load<Texture2D>($"Images/Items/{fileName}"));
+            }
+
+            SlotBorder = _contentManager.Load<Texture2D>("Images/slot_border");
+            SlotBackground = _contentManager.Load<Texture2D>("Images/slot_background");
+            SlotFont = _contentManager.Load<SpriteFont>("Fonts/slot");
             
             OnLoaded?.Invoke();
         }

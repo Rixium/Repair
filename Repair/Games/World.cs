@@ -27,27 +27,51 @@ namespace Repair.Games
             InputManager.OnUpHeld = () => Player.Move(0, -1);
             InputManager.OnLeftHeld = () => Player.Move(-1, 0);
             InputManager.OnRightHeld = () => Player.Move(1, 0);
-            InputManager.OnZoomInPressed = () => _camera.Zoom(1);
-            InputManager.OnZoomOutPressed = () => _camera.Zoom(-1);
+            InputManager.OnNextSlotPressed = () => UIManager.NextSlot();
+            InputManager.OnLastSlotPressed = () => UIManager.LastSlot();
+            InputManager.OnInteractPressed = () => UseItem();
 
             Map.RequestNotification = s => RequestNotification?.Invoke(s);
 
+            UIManager = new UIManager();
+            
             SetupPlayer();
             SetupCamera();
-            
-            UIManager = new UIManager();
+        }
+
+        private void UseItem()
+        {
+            var slot = UIManager.GetSelectedSlot();
+            if (slot.Item == null) return;
+            if (!slot.Item.Usable) return;
         }
 
         private void SetupPlayer()
         {
             var playerStartTile = Map.GetRandomDryTile();
             
-            Player = new Player(playerStartTile)
+            Player = new Player(playerStartTile, CreateStartingInventory())
             {
                 OnTryMove = TryMove
             };
+
+            UIManager.Inventory = Player.Inventory;
         }
-        
+
+        private static Inventory CreateStartingInventory()
+        {
+            var inventory = new Inventory();
+
+            inventory.AddItem(new Item()
+            {
+                ItemName = "Seed",
+                FileName = "seed",
+                Usable = true
+            }, 5);
+
+            return inventory;
+        }
+
         private void SetupCamera()
         {
             _camera = new Camera((int) Player.Tile.WorldPosition.X, (int) Player.Tile.WorldPosition.Y);

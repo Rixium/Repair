@@ -24,14 +24,23 @@ namespace Repair.Screen
             MediaPlayer.Volume = 0.5f;
             //MediaPlayer.Play(ContentChest.MainMusic); // TODO UNCOMMENT
 
-            var startButton = new Button(ContentChest.ButtonFont, "Start", Color.Black, new Vector2(20, 100),
+            var startText = "Start";
+            var quitText = "Quit";
+            
+            var size = ContentChest.ButtonFont.MeasureString(startText);
+            var middle = new Vector2(ScreenProperties.ScreenWidth / 2.0f - size.X / 2, ScreenProperties.ScreenHeight / 2.0f);
+            
+            var startButton = new Button(ContentChest.ButtonFont, startText, Color.Black, middle,
                 Origin.Center)
             {
                 OnClick = OnStartClicked
             };
 
-            var quitButton = new Button(ContentChest.ButtonFont, "Quit", Color.Black,
-                new Vector2(20, startButton.Bottom + ButtonPadding), Origin.Center)
+            
+            size = ContentChest.ButtonFont.MeasureString(quitText);
+            middle = new Vector2(ScreenProperties.ScreenWidth / 2.0f - size.X / 2, ScreenProperties.ScreenHeight / 2.0f + 40);
+
+            var quitButton = new Button(ContentChest.ButtonFont, quitText, Color.Black, middle, Origin.Center)
             {
                 OnClick = OnQuitClicked
             };
@@ -96,8 +105,10 @@ namespace Repair.Screen
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
-            spriteBatch.DrawString(ContentChest.TitleFont, GameProperties.Title, new Vector2(20, 20), new Color(119, 221, 119));
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp);
+            var titleSize = ContentChest.TitleFont.MeasureString(GameProperties.Title);
+            var middle = new Vector2(ScreenProperties.ScreenWidth / 2.0f - titleSize.X / 2, ScreenProperties.ScreenHeight / 2.0f - titleSize.X - 20);
+            spriteBatch.DrawString(ContentChest.TitleFont, GameProperties.Title, middle, new Color(119, 221, 119));
             
             foreach (var button in _buttons)
             {

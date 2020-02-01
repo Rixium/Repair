@@ -21,5 +21,7 @@ namespace Repair.Games
         
         public bool IsDry => Dryness >= 0.2;
         public Vector2 WorldPosition => Map.GetTilePositionVector(this);
+
+        public WorldObject WorldObject;
     }
 }

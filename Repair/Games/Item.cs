@@ -4,6 +4,7 @@ namespace Repair.Games
     {
         
         public string ItemName { get; set; }
-        
+        public string FileName { get; set; }
+        public bool Usable { get; set; }
     }
 }

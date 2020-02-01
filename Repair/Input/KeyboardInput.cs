@@ -62,10 +62,10 @@ namespace Repair.Input
 
             if (state.IsKeyDown(Keys.OemMinus) && _lastState.IsKeyUp(Keys.OemMinus))
             {
-                InputManager.OnZoomOutPressed?.Invoke();
+                InputManager.OnLastSlotPressed?.Invoke();
             } else if (state.IsKeyDown(Keys.OemPlus) && _lastState.IsKeyUp(Keys.OemPlus))
             {
-                InputManager.OnZoomInPressed?.Invoke();
+                InputManager.OnNextSlotPressed?.Invoke();
             }
 
             _lastState = state;
