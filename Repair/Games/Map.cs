@@ -54,10 +54,10 @@ namespace Repair.Games
 
         public void Draw(SpriteBatch spriteBatch, Camera camera)
         {
-            var tileStartX = (int)(camera.X - ScreenProperties.ScreenWidth / 4) / TileSize - 1;
-            var tileStartY = (int)(camera.Y - ScreenProperties.ScreenHeight / 4) / TileSize - 1;
-            var tileEndX = (int)(camera.X + ScreenProperties.ScreenWidth / 4) / TileSize + 1;
-            var tileEndY = (int)(camera.Y + ScreenProperties.ScreenHeight / 4) / TileSize + 1;
+            var tileStartX = (int)(camera.X - ScreenProperties.ScreenWidth / 4.0f) / TileSize - 1;
+            var tileStartY = (int)(camera.Y - ScreenProperties.ScreenHeight / 4.0f) / TileSize - 1;
+            var tileEndX = (int)(camera.X + ScreenProperties.ScreenWidth / 4.0f) / TileSize + 1;
+            var tileEndY = (int)(camera.Y + ScreenProperties.ScreenHeight / 4.0f) / TileSize + 1;
             
             tileStartX = MathHelper.Clamp(tileStartX, 0, MapWidth);
             tileEndX = MathHelper.Clamp(tileEndX, 0, MapWidth);
