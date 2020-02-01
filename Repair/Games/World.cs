@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Repair.Input;
@@ -16,7 +17,7 @@ namespace Repair.Games
         
         private List<WorldObject> WorldObjects = new List<WorldObject>(); 
         public UIManager UIManager;
-        public int MapSize { get; set; } = 1000;
+        public int MapSize { get; set; } = 300;
 
         private Camera _camera;
         public Action<string> RequestNotification { get; set; }
@@ -109,6 +110,20 @@ namespace Repair.Games
                 
                 var progressed = obj.Progress();
 
+                if (!progressed && obj.DropsOnFinalStage != null)
+                {
+                    var ran = Randomizer.RandomMinMax(0, 100);
+                    if (ran <= (100 * obj.DropRarity))
+                    {
+                        Player.Inventory.AddItem(new Item()
+                        {
+                            ItemName = obj.ObjectName[0],
+                            FileName = obj.FileName[0],
+                            Usable = true
+                        });
+                    }
+                }
+                
                 if (!progressed) continue;
                 if (!obj.HasProgressEffect) continue;
                 if (drynessRadius <= 0) continue;

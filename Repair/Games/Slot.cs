@@ -8,13 +8,16 @@ namespace Repair.Games
 
         public bool Add(Item item, int count)
         {
-            if (Item == item)
+
+            if (Item != null)
             {
+                if (!Item.ItemName.Equals(item.ItemName)) 
+                    return false;
+                
                 Count += count;
                 return true;
-            }
 
-            if (Item != null) return false;
+            }
             
             Count = count;
             Item = item;

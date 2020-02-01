@@ -21,6 +21,9 @@ namespace Repair.Games
         public bool HasProgressEffect { get; set; }
         public string PlaceSound { get; set; }
         public string UseSound { get; set; }
+        
+        public string DropsOnFinalStage { get; set; }
+        public float DropRarity { get; set; }
 
         public bool CreateInstance(Tile tile)
         {
@@ -44,7 +47,9 @@ namespace Repair.Games
                 CanUse =  CanUse,
                 HasProgressEffect = HasProgressEffect,
                 PlaceSound = PlaceSound,
-                UseSound = UseSound
+                UseSound = UseSound,
+                DropsOnFinalStage = DropsOnFinalStage,
+                DropRarity = DropRarity
             };
 
             tile.WorldObject = worldObject;

@@ -95,6 +95,8 @@
 		"StageModifier": 2,
 		"ProgressOnSleep": true,
 		"CanPickUp":false,
-		"PlaceSound": "plant"
+		"PlaceSound": "plant",
+		"DropsOnFinalStage": "seed",
+		"DropRarity": 0.05
 	}
 ]

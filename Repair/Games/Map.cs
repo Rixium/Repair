@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Net.Mime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Repair.Helpers;
@@ -145,5 +144,11 @@ namespace Repair.Games
             return tile;
         }
 
+        public Tile GetRandomTileInRadius(Tile tile, int radius)
+        {
+            var randomTileX = Randomizer.RandomMinMax(tile.X - radius, tile.X + radius);
+            var randomTileY = Randomizer.RandomMinMax(tile.Y - radius, tile.Y + radius);
+            return GetTileAt(randomTileX, randomTileY);
+        }
     }
 }
