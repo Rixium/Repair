@@ -1,3 +1,5 @@
+using System;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Repair.Games;
 
@@ -41,8 +43,14 @@ namespace Repair.Util
         public void Update(float delta)
         {
             if (FollowTarget == null) return;
-            X = (int) FollowTarget.Position.X;
-            Y = (int) FollowTarget.Position.Y;
+            
+            var positionVector = FollowTarget.Tile.WorldPosition;
+            var targetVector = FollowTarget.TargetTile.WorldPosition;
+            
+            positionVector -= (positionVector - targetVector) * FollowTarget.MovementPercentage;
+
+            X = (int) positionVector.X;
+            Y = (int) positionVector.Y;
         }
         
         public Vector2 ScreenToWorld(Vector2 screenPosition) => 

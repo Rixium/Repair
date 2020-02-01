@@ -11,6 +11,10 @@ namespace Repair.Games
     public class Map
     {
         
+        public int MapWidth { get; set; }
+
+        public int MapHeight { get; set; }
+        
         public int TileSize { get; set; } = 24;
         public Action<string> RequestNotification { get; set; }
         
@@ -19,6 +23,9 @@ namespace Repair.Games
 
         public Map(int mapWidth, int mapHeight)
         {
+            MapWidth = mapWidth;
+            MapHeight = mapHeight;
+            
             _tiles = WorldGenerator.Generate(this, mapWidth, mapHeight);
             CalculateDryness();
         }
@@ -45,10 +52,10 @@ namespace Repair.Games
             var tileEndX = (camera.X + ScreenProperties.ScreenWidth) / TileSize + 1;
             var tileEndY = (camera.Y + ScreenProperties.ScreenHeight) / TileSize + 1;
             
-            tileStartX = MathHelper.Clamp(tileStartX, 0, _tiles.GetLength(0));
-            tileEndX = MathHelper.Clamp(tileEndX, 0, _tiles.GetLength(0));
-            tileStartY = MathHelper.Clamp(tileStartY, 0, _tiles.GetLength(1));
-            tileEndY = MathHelper.Clamp(tileEndY, 0, _tiles.GetLength(1));
+            tileStartX = MathHelper.Clamp(tileStartX, 0, MapWidth);
+            tileEndX = MathHelper.Clamp(tileEndX, 0, MapWidth);
+            tileStartY = MathHelper.Clamp(tileStartY, 0, MapHeight);
+            tileEndY = MathHelper.Clamp(tileEndY, 0, MapHeight);
             
             for (var i = tileStartX; i < tileEndX; i++)
             {
@@ -70,15 +77,13 @@ namespace Repair.Games
                     else
                     {
                         var tileTop = _tiles[i, j].North;
-                        spriteBatch.Draw(ContentChest.Grass["grass_"], new Vector2(i * TileSize, j * TileSize), Color.White * _tiles[i, j].Dryness);
-                        
                         if (tileTop != null && tileTop.IsDry)
                         {
-                            spriteBatch.Draw(ContentChest.WaterEdge, new Vector2(i * TileSize, j * TileSize), Color.White * 0.5f);
+                            spriteBatch.Draw(ContentChest.WaterEdge, new Vector2(i * TileSize, j * TileSize), Color.White);
                         }
                         else
                         {
-                            spriteBatch.Draw(ContentChest.Water, new Vector2(i * TileSize, j * TileSize), Color.White * 0.5f);
+                            spriteBatch.Draw(ContentChest.Water, new Vector2(i * TileSize, j * TileSize), Color.White);
                         }
                     }
                 }
@@ -91,5 +96,26 @@ namespace Repair.Games
         }
 
         public Vector2 GetTilePositionVector(Tile tile) => new Vector2(tile.X * TileSize, tile.Y * TileSize);
+
+        public Tile GetTileAtVector(float x, float y)
+        {
+            var tileX = (int) x / TileSize;
+            var tileY = (int) y / TileSize;
+            return GetTileAt(tileX, tileY);
+        }
+
+        public Tile GetRandomDryTile()
+        {
+            Tile tile = null;
+
+            do
+            {
+                var randomX = Randomizer.RandomMinMax(0, MapWidth);
+                var randomY = Randomizer.RandomMinMax(0, MapHeight);
+                tile = GetTileAt(randomX, randomY);
+            } while (tile == null || !tile.IsDry);
+
+            return tile;
+        }
     }
 }

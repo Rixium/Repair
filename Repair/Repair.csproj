@@ -46,6 +46,7 @@
     <Compile Include="External\FastNoise.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GameProperties.cs" />
+    <Compile Include="Games\Direction.cs" />
     <Compile Include="Games\IEntity.cs" />
     <Compile Include="Games\Map.cs" />
     <Compile Include="Games\Player.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\Origin.cs" />
     <Compile Include="Util\Camera.cs" />
+    <Compile Include="Util\Randomizer.cs" />
     <Compile Include="Weather\WeatherData.cs" />
     <Compile Include="Weather\WeatherInformation.cs" />
     <Compile Include="Weather\WeatherManager.cs" />

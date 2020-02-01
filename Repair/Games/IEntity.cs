@@ -5,7 +5,8 @@ namespace Repair.Games
     public interface IEntity
     {
         
-        Vector2 Position { get; set; }
-        
+        Tile Tile { get; set; }
+        Tile TargetTile { get; set; }
+        float MovementPercentage { get; set; }
     }
 }

@@ -12,18 +12,22 @@ namespace Repair.Helpers
             StringBuilder.Clear();
 
             var northTile = tile.North;
+            var northEastTile = tile.NorthEast;
             var eastTile = tile.East;
+            var southEast = tile.SouthEast;
             var southTile = tile.South;
+            var southWest = tile.SouthWest;
             var westTile = tile.West;
+            var northWest = tile.NorthWest;
 
-            if (westTile != null && !westTile.IsDry)
-                StringBuilder.Append("l");
             if (northTile != null && !northTile.IsDry)
-                StringBuilder.Append("t");
+                StringBuilder.Append("n_");
             if (eastTile != null && !eastTile.IsDry)
-                StringBuilder.Append("r");
+                StringBuilder.Append("e_");
             if (southTile != null && !southTile.IsDry)
-                StringBuilder.Append("b");
+                StringBuilder.Append("s_");
+            if (westTile != null && !westTile.IsDry)
+                StringBuilder.Append("w_");
 
             return StringBuilder.ToString();
         }

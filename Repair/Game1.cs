@@ -1,10 +1,12 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Repair.Input;
 using Repair.Notify;
 using Repair.Screen;
+using Repair.Util;
 
 namespace Repair
 {
@@ -44,6 +46,8 @@ namespace Repair
             
             Window.Title = GameProperties.Title;
 
+            Randomizer.Initialize(2556);
+            
             _weatherManager = new WeatherManager(new HttpClient(), ApiKey);
             var weatherInformation = _weatherManager.GetWeatherInformation();
             

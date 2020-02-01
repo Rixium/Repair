@@ -21,21 +21,38 @@ namespace Repair.Games
         {
             Map = new Map(MapSize, MapSize);
 
-            InputManager.OnDownHeld = () => Player.Move(0, Player.Speed);
-            InputManager.OnUpHeld = () => Player.Move(0, -Player.Speed);
-            InputManager.OnLeftHeld = () => Player.Move(-Player.Speed, 0);
-            InputManager.OnRightHeld = () => Player.Move(Player.Speed, 0);
+            InputManager.OnDownHeld = () => Player.Move(0, 1);
+            InputManager.OnUpHeld = () => Player.Move(0, -1);
+            InputManager.OnLeftHeld = () => Player.Move(-1, 0);
+            InputManager.OnRightHeld = () => Player.Move(1, 0);
             InputManager.OnZoomInPressed = () => _camera.Zoom(1);
             InputManager.OnZoomOutPressed = () => _camera.Zoom(-1);
 
             Map.RequestNotification = s => RequestNotification?.Invoke(s);
 
-            var playerStartTile = Map.GetTileAt(MapSize / 2, MapSize / 2);
-            var playerStartVector = Map.GetTilePositionVector(playerStartTile);
-            Player = new Player(playerStartVector);
+            SetupPlayer();
+            SetupCamera();
+        }
 
-            _camera = new Camera((int) playerStartVector.X, (int) playerStartVector.Y);
+        private void SetupPlayer()
+        {
+            var playerStartTile = Map.GetRandomDryTile();
+            
+            Player = new Player(playerStartTile)
+            {
+                OnTryMove = TryMove
+            };
+        }
+        
+        private void SetupCamera()
+        {
+            _camera = new Camera((int) Player.Tile.WorldPosition.X, (int) Player.Tile.WorldPosition.Y);
             _camera.SetFollowTarget(Player);
+        }
+
+        private bool TryMove(Tile tile)
+        {
+            return tile != null && tile.IsDry;
         }
 
         private void Scroll(int x, int y)
@@ -46,6 +63,8 @@ namespace Repair.Games
         public void Update(float delta)
         {
             Map.Update(delta);
+            Player.Update(delta);
+            
             _camera.Update(delta);
         }
 
@@ -54,9 +73,19 @@ namespace Repair.Games
             spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, null, null, null, _camera.Get());
 
             Map.Draw(spriteBatch, _camera);
-            
-            spriteBatch.Draw(ContentChest.Pixel, new Rectangle((int) Player.Position.X, (int) Player.Position.Y, Map.TileSize, Map.TileSize), Color.White);
+
+            DrawPlayer(spriteBatch);
             spriteBatch.End();
+        }
+
+        private void DrawPlayer(SpriteBatch spriteBatch)
+        {
+            var drawVector = Player.Tile.WorldPosition;
+            var targetVector = Player.TargetTile.WorldPosition;
+            
+            drawVector -= (drawVector - targetVector) * Player.MovementPercentage;
+            
+            spriteBatch.Draw(ContentChest.Pixel, new Rectangle((int) drawVector.X, (int) drawVector.Y, Map.TileSize, Map.TileSize), Color.White);
         }
     }
 
