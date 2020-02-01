@@ -12,17 +12,56 @@ namespace Repair.Input
         {
             var state = GamePad.GetState(0);
 
-            if (state.ThumbSticks.Left.Y > 0.1f && _lastState.ThumbSticks.Left.Y < 0.1f)
+            if (state.ThumbSticks.Left.Y > 0.1f)
             {
-                InputManager.OnUpPressed?.Invoke();
-            } else if (state.ThumbSticks.Left.Y < -0.1f && _lastState.ThumbSticks.Left.Y > -0.1f)
+                if (_lastState.ThumbSticks.Left.Y < 0.1f)
+                {
+                    InputManager.OnUpPressed?.Invoke();
+                }
+                else
+                {
+                    InputManager.OnUpHeld?.Invoke();
+                }
+            } else if (state.ThumbSticks.Left.Y < -0.1f)
             {
-                InputManager.OnDownPressed?.Invoke();
+                if(_lastState.ThumbSticks.Left.Y > -0.1f)
+                {
+                    InputManager.OnDownPressed?.Invoke();
+                }
+                else
+                {
+                    InputManager.OnDownHeld?.Invoke();
+                }
+            }
+            
+            if (state.ThumbSticks.Left.X > 0.1f)
+            {
+                if (_lastState.ThumbSticks.Left.X < 0.1f)
+                {
+                    InputManager.OnRightPressed?.Invoke();
+                }
+                else
+                {
+                    InputManager.OnRightHeld?.Invoke();
+                }
+            } else if (state.ThumbSticks.Left.X < -0.1f)
+            {
+                if(_lastState.ThumbSticks.Left.X > -0.1f)
+                {
+                    InputManager.OnLeftPressed?.Invoke();
+                }
+                else
+                {
+                    InputManager.OnLeftHeld?.Invoke();
+                }
             }
 
-            if (state.Buttons.A == ButtonState.Pressed && _lastState.Buttons.A == ButtonState.Released)
+            if (state.Buttons.A == ButtonState.Pressed)
             {
-                InputManager.OnInteractPressed?.Invoke();
+                if (_lastState.Buttons.A == ButtonState.Released)
+                {
+                    InputManager.OnInteractPressed?.Invoke();
+                }
             }
 
             _lastState = state;

@@ -11,14 +11,50 @@ namespace Repair.Input
         {
             var state = Keyboard.GetState();
 
-            if (state.IsKeyDown(Keys.S) && _lastState.IsKeyUp(Keys.S))
+            if (state.IsKeyDown(Keys.S))
             {
-                InputManager.OnDownPressed?.Invoke();
-            } else if (state.IsKeyDown(Keys.W) && _lastState.IsKeyUp(Keys.W))
+                if (_lastState.IsKeyUp(Keys.S))
+                {
+                    InputManager.OnDownPressed?.Invoke();
+                }
+                else
+                {
+                    InputManager.OnDownHeld?.Invoke();   
+                }
+            } else if (state.IsKeyDown(Keys.W)) 
             {
-                InputManager.OnUpPressed?.Invoke();
+                if(_lastState.IsKeyUp(Keys.W)) {
+                    InputManager.OnUpPressed?.Invoke();
+                }
+                else
+                {
+                    InputManager.OnUpHeld?.Invoke();
+                }
+                
             }
 
+            if (state.IsKeyDown(Keys.D))
+            {
+                if (_lastState.IsKeyUp(Keys.D))
+                {
+                    InputManager.OnRightPressed?.Invoke();
+                }
+                else
+                {
+                    InputManager.OnRightHeld?.Invoke();   
+                }
+            } else if (state.IsKeyDown(Keys.A)) 
+            {
+                if(_lastState.IsKeyUp(Keys.A)) {
+                    InputManager.OnLeftPressed?.Invoke();
+                }
+                else
+                {
+                    InputManager.OnLeftHeld?.Invoke();
+                }
+                
+            }
+            
             if (state.IsKeyDown(Keys.E) && _lastState.IsKeyUp(Keys.E))
             {
                 InputManager.OnInteractPressed?.Invoke();

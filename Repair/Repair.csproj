@@ -43,7 +43,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ContentChest.cs" />
+    <Compile Include="External\FastNoise.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="GameProperties.cs" />
+    <Compile Include="Games\Map.cs" />
+    <Compile Include="Games\Tile.cs" />
+    <Compile Include="Games\World.cs" />
+    <Compile Include="Games\WorldGenerator.cs" />
     <Compile Include="Input\GamepadInput.cs" />
     <Compile Include="Input\IInput.cs" />
     <Compile Include="Input\InputManager.cs" />

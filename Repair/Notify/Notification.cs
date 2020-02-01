@@ -15,7 +15,7 @@ namespace Repair.Notify
         private const int TextPadding = 20;
         private float _fade = 1;
 
-        private int _y = ScreenProperties.ScreenHeight + 100;
+        private int _y = ScreenProperties.ScreenHeight;
         private int Y
         {
             set
@@ -31,6 +31,7 @@ namespace Repair.Notify
 
         private Vector2 _notifyTextSize;
         private string _text;
+        private float _waited;
 
         public Notification(string text)
         {
@@ -49,11 +50,19 @@ namespace Repair.Notify
             if (Y <= ScreenProperties.ScreenHeight - MidRectangle.Height - ScreenPadding)
             {
                 Y = ScreenProperties.ScreenHeight - MidRectangle.Height - ScreenPadding;
-                _fade -= 2f * delta;
+
+                if (_waited >= 1)
+                {
+                    _fade -= 2f * delta;
+                }
+                else
+                {
+                    _waited += delta;
+                }
             }
             else
             {
-                Y -= 1;
+                Y -= 2;
             }
         }
 

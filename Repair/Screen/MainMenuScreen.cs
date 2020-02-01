@@ -19,14 +19,21 @@ namespace Repair.Screen
 
         public MainMenuScreen()
         {
-            //MediaPlayer.Play(ContentChest.MainMusic); // TODO UNCOMMENT ON RELEASE
-            
-            var startButton = new Button(ContentChest.ButtonFont, "Start", Color.Black, new Vector2(20, 100), Origin.Center);
-            startButton.OnClick = OnStartClicked;
-            
-            var quitButton = new Button(ContentChest.ButtonFont, "Quit", Color.Black, new Vector2(20, startButton.Bottom + ButtonPadding), Origin.Center);
-            quitButton.OnClick = OnQuitClicked;
-            
+            MediaPlayer.Volume = 0.5f;
+            MediaPlayer.Play(ContentChest.MainMusic);
+
+            var startButton = new Button(ContentChest.ButtonFont, "Start", Color.Black, new Vector2(20, 100),
+                Origin.Center)
+            {
+                OnClick = OnStartClicked
+            };
+
+            var quitButton = new Button(ContentChest.ButtonFont, "Quit", Color.Black,
+                new Vector2(20, startButton.Bottom + ButtonPadding), Origin.Center)
+            {
+                OnClick = OnQuitClicked
+            };
+
             _buttons = new[]
             {
                 startButton,
@@ -45,16 +52,23 @@ namespace Repair.Screen
 
         private void OnStartClicked()
         {
+            InputManager.OnDownPressed = null;
+            InputManager.OnUpPressed = null;
+            InputManager.OnInteractPressed = null;
+            
             RequestScreenChange?.Invoke(new GameScreen());
         }
 
         private void OnInteractPressed()
         {
+            ContentChest.SelectSound.Play();
             _buttons[_activeButton].Click();
         }
 
         private void OnUpPressed()
         {
+            ContentChest.ClickSound.Play();
+            
             var newActive = _activeButton - 1;
             if (newActive < 0)
                 newActive = _buttons.Length - 1;
@@ -64,6 +78,8 @@ namespace Repair.Screen
 
         private void OnDownPressed()
         {
+            ContentChest.ClickSound.Play();
+            
             var newActive = _activeButton + 1;
             if (newActive >= _buttons.Length)
                 newActive = 0;
@@ -79,7 +95,7 @@ namespace Repair.Screen
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-            spriteBatch.DrawString(ContentChest.TitleFont, "Repair", new Vector2(20, 20), new Color(119, 221, 119));
+            spriteBatch.DrawString(ContentChest.TitleFont, GameProperties.Title, new Vector2(20, 20), new Color(119, 221, 119));
             
             foreach (var button in _buttons)
             {

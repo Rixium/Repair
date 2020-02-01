@@ -17,6 +17,11 @@ namespace Repair.Input
         public static Action OnLeftPressed;
         public static Action OnRightPressed;
         public static Action OnInteractPressed;
+        public static Action OnDownHeld;
+        public static Action OnUpHeld;
+        public static Action OnRightHeld;
+        public static Action OnLeftHeld;
+        
 
         public static void Update(float delta)
         {

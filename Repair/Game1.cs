@@ -28,7 +28,7 @@ namespace Repair
                 PreferredBackBufferWidth = ScreenProperties.ScreenWidth,
                 PreferredBackBufferHeight = ScreenProperties.ScreenHeight
             };
-            
+
             Content.RootDirectory = "Content";
         }
 
@@ -42,6 +42,8 @@ namespace Repair
         {
             ContentChest.Initialize(Content);
             
+            Window.Title = GameProperties.Title;
+
             _weatherManager = new WeatherManager(new HttpClient(), ApiKey);
             var weatherInformation = _weatherManager.GetWeatherInformation();
             
@@ -71,7 +73,7 @@ namespace Repair
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             
-            ContentChest.BasicLoad();
+            ContentChest.BasicLoad(); 
             RequestScreenChange(new SplashScreen());
         }
 
