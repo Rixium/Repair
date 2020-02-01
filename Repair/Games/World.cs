@@ -76,6 +76,7 @@ namespace Repair.Games
             if (facing == null) return;
             if (facing.WorldObject != null && facing.WorldObject.CanUse)
             {
+                ContentChest.Sounds[facing.WorldObject.UseSound].Play();
                 BeginProgress();
                 return;
             }
@@ -87,6 +88,8 @@ namespace Repair.Games
             var protoType = ContentChest.ProtoTypes[slot.Item.FileName];
             var successful = protoType.CreateInstance(facing);
             if (!successful) return;
+
+            ContentChest.Sounds[protoType.PlaceSound].Play();
             
             slot.Remove(1);
             AddWorldObject(facing.WorldObject);
@@ -101,7 +104,24 @@ namespace Repair.Games
         {
             foreach (var obj in WorldObjects)
             {
-                obj.Progress();
+                var drynessEffect = obj.GetDrynessEffect();
+                var drynessRadius = obj.GetDrynessRadius();
+                
+                var progressed = obj.Progress();
+
+                if (!progressed) continue;
+                if (!obj.HasProgressEffect) continue;
+                if (drynessRadius <= 0) continue;
+                
+                for (var i = obj.Tile.X - drynessRadius; i < obj.Tile.X + drynessRadius; i++)
+                {
+                    for (var j = obj.Tile.Y - drynessRadius; j < obj.Tile.Y + drynessRadius; j++)
+                    {
+                        var tile = Map.GetTileAt(i, j);
+                        if (tile == null) continue;
+                        tile.Dryness += drynessEffect;
+                    }
+                }
             }
         }
 

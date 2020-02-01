@@ -42,6 +42,7 @@ namespace Repair
         public static Texture2D SlotBorder { get; set; }
         public static Texture2D SlotBackground { get; set; }
         public static SpriteFont SlotFont { get; set; }
+        public static Dictionary<string, SoundEffect> Sounds { get; set; }
 
         public static void Initialize(ContentManager contentManager)
         {
@@ -56,7 +57,7 @@ namespace Repair
             NotifyMid = _contentManager.Load<Texture2D>("Images/notify_mid");
             Pixel = _contentManager.Load<Texture2D>("Images/pixel");
             Splash = _contentManager.Load<Texture2D>("Images/splash");
-            NotifySound = _contentManager.Load<SoundEffect>("Sounds/notify");
+            NotifySound = _contentManager.Load<SoundEffect>("notify");
         }
         
         public static void Load()
@@ -69,6 +70,7 @@ namespace Repair
             Items = new Dictionary<string, Texture2D>();
             WorldObjects = new Dictionary<string, Texture2D>();
             ProtoTypes = new Dictionary<string, WorldObject>();
+            Sounds = new Dictionary<string, SoundEffect>();
 
             TitleFont = _contentManager.Load<SpriteFont>("Fonts/title");
             MainMusic = _contentManager.Load<Song>("Music/main");
@@ -78,8 +80,8 @@ namespace Repair
             WaterEdgeFrames[0] = _contentManager.Load<Texture2D>("Images/water_edge");
             WaterEdgeFrames[1] = _contentManager.Load<Texture2D>("Images/water_edge_2");
             
-            ClickSound = _contentManager.Load<SoundEffect>("Sounds/click");
-            SelectSound = _contentManager.Load<SoundEffect>("Sounds/select");
+            ClickSound = _contentManager.Load<SoundEffect>("click");
+            SelectSound = _contentManager.Load<SoundEffect>("select");
 
             foreach (var file in Directory.GetFiles(_contentManager.RootDirectory + "/Images/Grass"))
             {
@@ -97,6 +99,12 @@ namespace Repair
             {
                 var fileName = Path.GetFileName(file).Split('.')[0];
                 WorldObjects.Add(fileName, _contentManager.Load<Texture2D>($"Images/WorldObjects/{fileName}"));
+            }
+            
+            foreach (var file in Directory.GetFiles(_contentManager.RootDirectory + "/Sounds"))
+            {
+                var fileName = Path.GetFileName(file).Split('.')[0];
+                Sounds.Add(fileName, _contentManager.Load<SoundEffect>($"Sounds/{fileName}"));
             }
 
             SlotBorder = _contentManager.Load<Texture2D>("Images/slot_border");

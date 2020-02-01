@@ -16,7 +16,10 @@
 		"Stage": 1,
 		"TotalStages": 1,
 		"CanPickUp":true,
-		"CanUse":true
+		"CanUse":true,
+		"HasProgressEffect":false,
+		"PlaceSound": "tent",
+		"UseSound": "sleep"
 	},
 	{
 		"ObjectName": [
@@ -37,6 +40,7 @@
 			"sapling4",
 			"tree"
 		],
+		"HasProgressEffect":true,
 		"Origins": [
 			{
 				"X" : 1,
@@ -68,12 +72,29 @@
 			}
 		],
 		"Collidable":false,
-		"DrynessRadius":1,
-		"DrynessEffect":0.1,
+		"DrynessRadius":[
+			1,
+			2,
+			3,
+			4,
+			5,
+			6,
+			7
+		],
+		"DrynessEffect":[
+			0.01,
+			0.03,
+			0.05,
+			0.06,
+			0.08,
+			0.1,
+			0.12
+		],
 		"Stage": 1,
 		"TotalStages": 7,
 		"StageModifier": 2,
 		"ProgressOnSleep": true,
-		"CanPickUp":false
+		"CanPickUp":false,
+		"PlaceSound": "plant"
 	}
 ]

@@ -13,6 +13,12 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin click.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:click.wav
+
 #begin Fonts/button.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -226,6 +232,18 @@
 /processorParam:TextureFormat=Color
 /build:Images/Grass/grass_n_ne_e_se_s_.png
 
+#begin Images/Grass/grass_n_ne_e_se_s_sw_.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Grass/grass_n_ne_e_se_s_sw_.png
+
 #begin Images/Grass/grass_n_ne_e_se_s_sw_w_nw_.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -405,6 +423,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/Grass/grass_ne_se_.png
+
+#begin Images/Grass/grass_ne_sw_s_se_.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Grass/grass_ne_sw_s_se_.png
 
 #begin Images/Grass/grass_nw_.png
 /importer:TextureImporter
@@ -856,6 +886,12 @@
 /processorParam:Quality=Best
 /build:Music/main.mp3
 
+#begin notify.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:notify.wav
+
 #begin Raw/GREEN NATURE.ttf
 /copy:Raw/GREEN NATURE.ttf
 
@@ -865,21 +901,27 @@
 #begin Raw/Slot.ttf
 /copy:Raw/Slot.ttf
 
-#begin Sounds/click.wav
+#begin select.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Sounds/click.wav
+/build:select.wav
 
-#begin Sounds/notify.wav
+#begin Sounds/plant.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Sounds/notify.wav
+/build:Sounds/plant.wav
 
-#begin Sounds/select.wav
+#begin Sounds/sleep.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Sounds/select.wav
+/build:Sounds/sleep.wav
+
+#begin Sounds/tent.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/tent.wav
 

@@ -9,8 +9,8 @@ namespace Repair.Games
         public string[] FileName { get; set; }
         public bool CanPickup { get; set; }
         public bool Collidable { get; set; }
-        public int DrynessRadius { get; set; }
-        public float DrynessEffect { get; set; }
+        public int[] DrynessRadius { get; set; }
+        public float[] DrynessEffect { get; set; }
         public string[] ObjectName { get; set; }
         public int Stage { get; set; }
         public int TotalStages { get; set; }
@@ -18,6 +18,9 @@ namespace Repair.Games
         public bool ProgressOnSleep { get; set; }
         public Tile Tile { get; set; }
         public bool CanUse { get; set; }
+        public bool HasProgressEffect { get; set; }
+        public string PlaceSound { get; set; }
+        public string UseSound { get; set; }
 
         public bool CreateInstance(Tile tile)
         {
@@ -38,7 +41,10 @@ namespace Repair.Games
                 StageModifier =  StageModifier,
                 ProgressOnSleep = ProgressOnSleep,
                 CanPickup = CanPickup,
-                CanUse =  CanUse
+                CanUse =  CanUse,
+                HasProgressEffect = HasProgressEffect,
+                PlaceSound = PlaceSound,
+                UseSound = UseSound
             };
 
             tile.WorldObject = worldObject;
@@ -46,13 +52,17 @@ namespace Repair.Games
             return true;
         }
 
-        public void Progress()
+        public bool Progress()
         {
-            if (Stage < TotalStages)
-            {
-                Stage++;
-                DrynessEffect += StageModifier;
-            }
+            if (Stage >= TotalStages) return false;
+            
+            Stage++;
+            return true;
+
         }
+
+        public float GetDrynessEffect() => HasProgressEffect ? DrynessEffect[Stage - 1] : 0;
+
+        public int GetDrynessRadius() => HasProgressEffect ? DrynessRadius[Stage - 1] : 0;
     }
 }
