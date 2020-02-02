@@ -405,7 +405,7 @@ namespace Repair.Games
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, null, null, null, _camera.Get());
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, DepthStencilState.DepthRead, null, null, _camera.Get());
 
             var stillToDraw = Map.Draw(spriteBatch, _camera, Player);
             

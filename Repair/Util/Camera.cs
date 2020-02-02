@@ -52,21 +52,21 @@ namespace Repair.Util
 
             if (positionVector.X < X)
             {
-                X -= ScrollSpeed * Math.Abs(positionVector.X - X) / 10;
+                X -=  (int) Math.Abs(positionVector.X - X) / 10;
             }
 
             if (positionVector.X > X)
             {
-                X += ScrollSpeed * Math.Abs(positionVector.X - X) / 10;
+                X += (int)  Math.Abs(positionVector.X - X) / 10;
             }
 
             if (positionVector.Y < Y)
             {
-                Y -= ScrollSpeed * Math.Abs(positionVector.Y - Y) / 10;
+                Y -= (int)  Math.Abs(positionVector.Y - Y) / 10;
             }
             if (positionVector.Y > Y)
             {
-                Y += ScrollSpeed * Math.Abs(positionVector.Y - Y) / 10;
+                Y += (int) Math.Abs(positionVector.Y - Y) / 10;
             }
         }
         
