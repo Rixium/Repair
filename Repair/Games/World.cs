@@ -36,6 +36,10 @@ namespace Repair.Games
             InputManager.OnUpHeld = () => Player.Move(0, -1);
             InputManager.OnLeftHeld = () => Player.Move(-1, 0);
             InputManager.OnRightHeld = () => Player.Move(1, 0);
+            InputManager.OnDownPressed = () => Player.Look(0, 1);
+            InputManager.OnUpPressed = () => Player.Look(0, -1);
+            InputManager.OnLeftPressed = () => Player.Look(-1, 0);
+            InputManager.OnRightPressed = () => Player.Look(1, 0);
             InputManager.OnNextSlotPressed = () => UIManager.NextSlot();
             InputManager.OnLastSlotPressed = () => UIManager.LastSlot();
             InputManager.OnInteractPressed = UseItem;
@@ -278,8 +282,14 @@ namespace Repair.Games
         {
             spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, null, null, null, _camera.Get());
 
-            Map.Draw(spriteBatch, _camera);
+            var stillToDraw = Map.Draw(spriteBatch, _camera, Player);
+            
             DrawPlayer(spriteBatch);
+
+            while (stillToDraw.Count > 0)
+            {
+                Map.DrawObject(spriteBatch, stillToDraw.Dequeue());
+            }
             
             spriteBatch.End();
         }
@@ -288,10 +298,11 @@ namespace Repair.Games
         {
             var drawVector = Player.Tile.WorldPosition;
             var targetVector = Player.TargetTile.WorldPosition;
-            
+
             drawVector -= (drawVector - targetVector) * Player.MovementPercentage;
+            drawVector += new Vector2(Map.TileSize / 2 - Player.ActiveImage.Width / 2, Map.TileSize / 2 - Player.ActiveImage.Height + 5);
             
-            spriteBatch.Draw(ContentChest.Pixel, new Rectangle((int) drawVector.X, (int) drawVector.Y, Map.TileSize, Map.TileSize), Color.White);
+            spriteBatch.Draw(Player.ActiveImage, new Rectangle((int) drawVector.X, (int) drawVector.Y, Player.ActiveImage.Width, Player.ActiveImage.Height), Color.White);
         }
 
     }

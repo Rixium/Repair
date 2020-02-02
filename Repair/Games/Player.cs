@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Repair.Games
 {
@@ -41,6 +42,7 @@ namespace Repair.Games
             Tile = startTile;
             TargetTile = startTile;
             Inventory = startingInventory;
+            Facing = Direction.Down;
         }
 
         public void Update(float delta)
@@ -50,6 +52,8 @@ namespace Repair.Games
                 MovementPercentage = 1;
                 return;
             }
+            
+            ContentChest.Player[Facing].Update(delta);
             
             MovementPercentage += Speed * delta;
             MovementPercentage = MathHelper.Clamp(MovementPercentage, 0, 1);
@@ -61,6 +65,13 @@ namespace Repair.Games
             {
                 PickupItemAt(Tile);
             }
+        }
+
+        public Texture2D ActiveImage => ContentChest.Player[Facing].Current;
+
+        public Texture2D GetImage()
+        {
+            return ActiveImage;
         }
 
         public void PickupItemAt(Tile tile)
@@ -86,10 +97,15 @@ namespace Repair.Games
         public void Move(int x, int y)
         {
             if (Tile != TargetTile) return;
-            
-            var moveTile = Tile.West;
-            var dir = Direction.Left;
 
+            Tile moveTile = null;
+            Direction dir = Direction.None;
+            
+            if (x < 0)
+            {
+                moveTile = Tile.West;
+                dir = Direction.Left;
+            }
             if (x > 0)
             {
                 moveTile = Tile.East;
@@ -110,6 +126,8 @@ namespace Repair.Games
 
             var shouldMove = OnTryMove.Invoke(moveTile);
 
+            if (dir == Direction.None || moveTile == null) return;
+            
             Facing = dir;
 
             if (!shouldMove) return;
@@ -118,5 +136,27 @@ namespace Repair.Games
             TargetTile = moveTile;
         }
 
+        public void Look(int x, int y)
+        {
+            if (x < 0)
+            {
+                Facing = Direction.Left;
+            }
+            
+            if (x > 0)
+            {
+                Facing = Direction.Right;
+            }
+
+            if (y < 0)
+            {
+                Facing = Direction.Up;
+            }
+
+            if (y > 0)
+            {
+                Facing = Direction.Down;
+            }
+        }
     }
 }

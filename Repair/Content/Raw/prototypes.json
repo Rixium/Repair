@@ -71,7 +71,7 @@
 				"Y" : 29.5
 			}
 		],
-		"Collidable":false,
+		"Collidable":true,
 		"DrynessRadius":[
 			1,
 			2,

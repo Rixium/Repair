@@ -44,6 +44,7 @@ namespace Repair
         public static Texture2D SlotBackground { get; set; }
         public static SpriteFont SlotFont { get; set; }
         public static Dictionary<string, SoundEffect> Sounds { get; set; }
+        public static Dictionary<Direction, Animation> Player { get; set; }
         public static SoundEffect PickUp { get; set; }
         public static SoundEffect[] Combos { get; set; }
 
@@ -83,6 +84,8 @@ namespace Repair
             WaterEdgeFrames = new Texture2D[2];
             WaterEdgeFrames[0] = _contentManager.Load<Texture2D>("Images/water_edge");
             WaterEdgeFrames[1] = _contentManager.Load<Texture2D>("Images/water_edge_2");
+            
+            Player = new Dictionary<Direction, Animation>();
             
             ClickSound = _contentManager.Load<SoundEffect>("click");
             SelectSound = _contentManager.Load<SoundEffect>("select");
@@ -131,6 +134,39 @@ namespace Repair
             {
                 ProtoTypes.Add(prototype.FileName[0], prototype);
             }
+            
+            var downFrames = new Texture2D[]
+            {
+                _contentManager.Load<Texture2D>("down1"),
+                _contentManager.Load<Texture2D>("down2")
+            };
+            var downAnimation = new Animation(downFrames, 0.1f);
+            
+            var upFrames = new Texture2D[]
+            {
+                _contentManager.Load<Texture2D>("up1"),
+                _contentManager.Load<Texture2D>("up2")
+            };
+            var upAnimation = new Animation(upFrames, 0.1f);
+            
+            var leftFrames = new Texture2D[]
+            {
+                _contentManager.Load<Texture2D>("left1"),
+                _contentManager.Load<Texture2D>("left2")
+            };
+            var leftAnimation = new Animation(leftFrames, 0.1f);
+            
+            var rightFrames = new Texture2D[]
+            {
+                _contentManager.Load<Texture2D>("right1"),
+                _contentManager.Load<Texture2D>("right2")
+            };
+            var rightAnimation = new Animation(rightFrames, 0.1f);
+            
+            Player.Add(Direction.Down, downAnimation);
+            Player.Add(Direction.Up, upAnimation);
+            Player.Add(Direction.Left, leftAnimation);
+            Player.Add(Direction.Right, rightAnimation);
             
             OnLoaded?.Invoke();
             

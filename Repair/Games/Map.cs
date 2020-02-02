@@ -60,7 +60,7 @@ namespace Repair.Games
             return _tiles[x, y];
         }
 
-        public void Draw(SpriteBatch spriteBatch, Camera camera)
+        public Queue<WorldObject> Draw(SpriteBatch spriteBatch, Camera camera, Player player)
         {
             var tileStartX = (int)(camera.X - ScreenProperties.ScreenWidth / 3.0f) / TileSize - 1;
             var tileStartY = (int)(camera.Y - ScreenProperties.ScreenHeight / 3.0f) / TileSize - 1;
@@ -111,20 +111,35 @@ namespace Repair.Games
                 }
             }
 
+            var stillToDraw = new Queue<WorldObject>();
+            
             while (_objectQueue.Count > 0)
             {
                 var obj = _objectQueue.Dequeue();
-                var image = ContentChest.WorldObjects[$"{obj.FileName[obj.Stage - 1]}"];
+                
+                if (obj.Tile.Y > player.Tile.Y)
+                {
+                    stillToDraw.Enqueue(obj);
+                    continue;
+                }
 
-                var objectOrigin = obj.Origins[obj.Stage - 1];
-                var origin = new Vector2(objectOrigin.X, objectOrigin.Y);
-                
-                var drawPosition = new Vector2(obj.Tile.X * TileSize + TileSize / 2,
-                    obj.Tile.Y * TileSize + TileSize / 2);
-                
-                spriteBatch.Draw(image, drawPosition, null, Color.White, 0, origin, 1,SpriteEffects.None, 0f);
+                DrawObject(spriteBatch, obj);
             }
+
+            return stillToDraw;
+        }
+
+        public void DrawObject(SpriteBatch spriteBatch, WorldObject obj)
+        {
+            var image = ContentChest.WorldObjects[$"{obj.FileName[obj.Stage - 1]}"];
+
+            var objectOrigin = obj.Origins[obj.Stage - 1];
+            var origin = new Vector2(objectOrigin.X, objectOrigin.Y);
             
+            var drawPosition = new Vector2(obj.Tile.X * TileSize + TileSize / 2,
+                obj.Tile.Y * TileSize + TileSize / 2);
+            
+            spriteBatch.Draw(image, drawPosition, null, Color.White, 0, origin, 1,SpriteEffects.None, 0f);
         }
 
         public void Update(float delta)

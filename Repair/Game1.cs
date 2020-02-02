@@ -2,7 +2,6 @@
 using System.Net.Http;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using Repair.Input;
 using Repair.Notify;
 using Repair.Screen;
