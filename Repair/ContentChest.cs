@@ -44,6 +44,8 @@ namespace Repair
         public static Texture2D SlotBackground { get; set; }
         public static SpriteFont SlotFont { get; set; }
         public static Dictionary<string, SoundEffect> Sounds { get; set; }
+        public static SoundEffect PickUp { get; set; }
+        public static SoundEffect[] Combos { get; set; }
 
         public static void Initialize(ContentManager contentManager)
         {
@@ -72,6 +74,7 @@ namespace Repair
             ProtoTypes = new Dictionary<string, WorldObject>();
             Sounds = new Dictionary<string, SoundEffect>();
             Maps = new Dictionary<int, MapData>();
+            Combos = new SoundEffect[4];
             
             TitleFont = _contentManager.Load<SpriteFont>("Fonts/title");
             MainMusic = _contentManager.Load<Song>("Music/main");
@@ -83,7 +86,13 @@ namespace Repair
             
             ClickSound = _contentManager.Load<SoundEffect>("click");
             SelectSound = _contentManager.Load<SoundEffect>("select");
+            PickUp = _contentManager.Load<SoundEffect>("pickup");
 
+            Combos[0] = _contentManager.Load<SoundEffect>("combo1");
+            Combos[1]   = _contentManager.Load<SoundEffect>("combo2");
+            Combos[2]  = _contentManager.Load<SoundEffect>("combo3");
+            Combos[3]  = _contentManager.Load<SoundEffect>("combo4");
+            
             Grass = _contentManager.Load<Texture2D>("Images/grass");
             
             foreach (var file in Directory.GetFiles(_contentManager.RootDirectory + "/Images/Items"))

@@ -23,7 +23,7 @@ namespace Repair.Screen
         public MainMenuScreen()
         {
             MediaPlayer.Volume = 0.5f;
-            //MediaPlayer.Play(ContentChest.MainMusic); // TODO UNCOMMENT
+            MediaPlayer.Play(ContentChest.MainMusic);
 
             var startText = "Start";
             var quitText = "Quit";

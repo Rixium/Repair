@@ -5,6 +5,7 @@ namespace Repair.Games
     public class WorldObject
     {
 
+        public int Power = 1;
         public Origin[] Origins;
         public string[] FileName { get; set; }
         public bool CanPickup { get; set; }
@@ -76,13 +77,13 @@ namespace Repair.Games
         {
             if (!HasProgressEffect) return 0;
             var totalRadius = DrynessRadius[Stage - 1];
+            return totalRadius + Power;
+        }
 
-            if (Tile.East?.WorldObject != null && Tile.East.WorldObject.ObjectType == ObjectType) totalRadius += 2;
-            if (Tile.North?.WorldObject != null && Tile.North.WorldObject.ObjectType == ObjectType) totalRadius += 2;
-            if (Tile.South?.WorldObject != null && Tile.South.WorldObject.ObjectType == ObjectType) totalRadius += 2;
-            if (Tile.West?.WorldObject != null && Tile.West.WorldObject.ObjectType == ObjectType) totalRadius += 2;
-
-            return totalRadius;
-        } 
+        public void AddPower()
+        {
+            if (Power >= 4) return;
+            Power += 1;
+        }
     }
 }

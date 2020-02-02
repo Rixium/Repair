@@ -106,7 +106,73 @@ namespace Repair.Games
             ContentChest.Sounds[protoType.PlaceSound].Play();
             
             slot.Remove(1);
+            
+            PowerUpNeighbours(facing);
             AddWorldObject(facing.WorldObject);
+        }
+
+        private void PowerUpNeighbours(Tile tile)
+        {
+            if (tile?.WorldObject == null) return;
+            
+            var obj = tile.WorldObject;
+            
+            var left = tile.West;
+            var right = tile.East;
+            var top = tile.North;
+            var bottom = tile.South;
+            var accumulated = 0;
+            var max = accumulated;
+
+            if (left.WorldObject != null && left.WorldObject.ObjectType == obj.ObjectType)
+            {
+                left.WorldObject.AddPower();
+
+                if (left.WorldObject.Power > max)
+                    max = left.WorldObject.Power;
+                
+                accumulated++;
+            }
+            
+            if (right.WorldObject != null && right.WorldObject.ObjectType == obj.ObjectType)
+            {
+                right.WorldObject.AddPower();
+                
+                if (right.WorldObject.Power > max)
+                    max = right.WorldObject.Power;
+
+                accumulated++;
+            }
+            
+            if (top.WorldObject != null && top.WorldObject.ObjectType == obj.ObjectType)
+            {
+                top.WorldObject.AddPower();
+                
+                if (top.WorldObject.Power > max)
+                    max = top.WorldObject.Power;
+                
+                accumulated++;
+            }
+            
+            if (bottom.WorldObject != null && bottom.WorldObject.ObjectType == obj.ObjectType)
+            {
+                bottom.WorldObject.AddPower();
+                
+                if (bottom.WorldObject.Power > max)
+                    max = bottom.WorldObject.Power;
+
+                accumulated++;
+            }
+
+            if (accumulated > max)
+                max = accumulated;
+
+            obj.Power = accumulated;
+
+            if (max >= 1)
+            {
+                ContentChest.Combos[max - 1].Play(0.5f, 0, 0);
+            }
         }
 
         private void BeginProgress()

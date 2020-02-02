@@ -19,6 +19,30 @@
 /processorParam:Quality=Best
 /build:click.wav
 
+#begin combo1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:combo1.wav
+
+#begin combo2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:combo2.wav
+
+#begin combo3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:combo3.wav
+
+#begin combo4.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:combo4.wav
+
 #begin Fonts/button.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -306,6 +330,12 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:notify.wav
+
+#begin pickup.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:pickup.wav
 
 #begin Raw/GREEN NATURE.ttf
 /copy:Raw/GREEN NATURE.ttf

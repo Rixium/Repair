@@ -80,6 +80,7 @@ namespace Repair.Games
             if (!added) return;
 
             tile.DroppedItem = null;
+            ContentChest.PickUp.Play();
         }
 
         public void Move(int x, int y)
