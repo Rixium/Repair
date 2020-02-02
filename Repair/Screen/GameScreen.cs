@@ -1,4 +1,5 @@
 using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Repair.Games;
 using Repair.Transition;
@@ -12,6 +13,7 @@ namespace Repair.Screen
         public Action<IScreen> RequestScreenChange { get; set; }
         public Action<string> RequestNotification { get; set; }
         public UIManager UIManager { get; set; }
+        public Color BackColor { get; set; } = new Color(56, 90, 113);
 
         public ITransition Transition = new FadeTransition(true);
         
@@ -22,7 +24,8 @@ namespace Repair.Screen
             _world = new World
             {
                 RequestNotification = s => RequestNotification?.Invoke(s),
-                RequestTransitionReset = ResetTransition
+                RequestTransitionReset = ResetTransition,
+                RequestScreenChange = (screen) => RequestScreenChange?.Invoke(screen)
             };
 
             Transition.OnTransitionOutEnded = _world.Progress;

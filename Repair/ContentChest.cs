@@ -32,13 +32,14 @@ namespace Repair
         public static SoundEffect ClickSound { get; set; }
         public static SoundEffect SelectSound { get; set; }
         
-        public static Dictionary<string, Texture2D> Grass { get; set; }
+        public static Texture2D Grass { get; set; }
         public static Texture2D Water { get; set; }
         public static Texture2D[] WaterEdgeFrames { get; set; }
         
         public static Dictionary<string, Texture2D> Items { get; set; }
         public static Dictionary<string, Texture2D> WorldObjects { get; set; }
         public static Dictionary<string, WorldObject> ProtoTypes { get; set; }
+        public static Dictionary<int, MapData> Maps { get; set; }
         public static Texture2D SlotBorder { get; set; }
         public static Texture2D SlotBackground { get; set; }
         public static SpriteFont SlotFont { get; set; }
@@ -66,12 +67,12 @@ namespace Repair
             
             _loadInitialized = true;
             
-            Grass = new Dictionary<string, Texture2D>();
             Items = new Dictionary<string, Texture2D>();
             WorldObjects = new Dictionary<string, Texture2D>();
             ProtoTypes = new Dictionary<string, WorldObject>();
             Sounds = new Dictionary<string, SoundEffect>();
-
+            Maps = new Dictionary<int, MapData>();
+            
             TitleFont = _contentManager.Load<SpriteFont>("Fonts/title");
             MainMusic = _contentManager.Load<Song>("Music/main");
             Water = _contentManager.Load<Texture2D>("Images/water");
@@ -83,12 +84,8 @@ namespace Repair
             ClickSound = _contentManager.Load<SoundEffect>("click");
             SelectSound = _contentManager.Load<SoundEffect>("select");
 
-            foreach (var file in Directory.GetFiles(_contentManager.RootDirectory + "/Images/Grass"))
-            {
-                var fileName = Path.GetFileName(file).Split('.')[0];
-                Grass.Add(fileName, _contentManager.Load<Texture2D>($"Images/Grass/{fileName}"));
-            }
-
+            Grass = _contentManager.Load<Texture2D>("Images/grass");
+            
             foreach (var file in Directory.GetFiles(_contentManager.RootDirectory + "/Images/Items"))
             {
                 var fileName = Path.GetFileName(file).Split('.')[0];
@@ -107,6 +104,13 @@ namespace Repair
                 Sounds.Add(fileName, _contentManager.Load<SoundEffect>($"Sounds/{fileName}"));
             }
 
+            foreach (var file in Directory.GetFiles(_contentManager.RootDirectory + "/Maps"))
+            {
+                var fileName = Path.GetFileName(file).Split('.')[0];
+                var data = File.ReadAllText($"{_contentManager.RootDirectory}/Maps/{fileName}.json", Encoding.UTF8);
+                Maps.Add(int.Parse(fileName), JsonConvert.DeserializeObject<MapData>(data));
+            }
+            
             SlotBorder = _contentManager.Load<Texture2D>("Images/slot_border");
             SlotBackground = _contentManager.Load<Texture2D>("Images/slot_background");
             SlotFont = _contentManager.Load<SpriteFont>("Fonts/slot");

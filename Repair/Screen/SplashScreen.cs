@@ -15,6 +15,7 @@ namespace Repair.Screen
         public Action<IScreen> RequestScreenChange { get; set; }
         public Action<string> RequestNotification { get; set; }
         public UIManager UIManager { get; set; }
+        public Color BackColor { get; set; } = Color.White;
 
         public SplashScreen()
         {

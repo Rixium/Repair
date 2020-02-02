@@ -57,8 +57,31 @@ namespace Repair.Games
             if (MovementPercentage < 1) return;
 
             Tile = TargetTile;
+            if (Tile.DroppedItem != null)
+            {
+                PickupItemAt(Tile);
+            }
         }
-        
+
+        public void PickupItemAt(Tile tile)
+        {
+            var item = tile.DroppedItem;
+
+            if (item == null) return;
+
+            var added = Inventory.AddItem(new Item()
+            {
+                FileName = item.FileName,
+                Count = 1,
+                ItemName = item.ItemName,
+                Usable = item.Usable
+            });
+
+            if (!added) return;
+
+            tile.DroppedItem = null;
+        }
+
         public void Move(int x, int y)
         {
             if (Tile != TargetTile) return;

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Repair.Transition;
 
@@ -57,5 +58,7 @@ namespace Repair.Screen
         {
             _transition.Reset();
         }
+
+        public Color GetBackColor() => _activeScreen?.BackColor ?? Color.White;
     }
 }

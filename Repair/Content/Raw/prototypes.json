@@ -75,11 +75,11 @@
 		"DrynessRadius":[
 			1,
 			2,
-			3,
-			4,
-			5,
-			6,
-			7
+			2,
+			2,
+			2,
+			2,
+			3
 		],
 		"DrynessEffect":[
 			0.01,
@@ -87,8 +87,8 @@
 			0.05,
 			0.06,
 			0.08,
-			0.1,
-			0.12
+			0.08,
+			0.08
 		],
 		"Stage": 1,
 		"TotalStages": 7,
@@ -96,7 +96,6 @@
 		"ProgressOnSleep": true,
 		"CanPickUp":false,
 		"PlaceSound": "plant",
-		"DropsOnFinalStage": "seed",
-		"DropRarity": 0.05
+		"ObjectType": 1
 	}
 ]

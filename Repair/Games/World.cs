@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Timers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Repair.Input;
-using Repair.Transition;
+using Repair.Screen;
 using Repair.UI;
 using Repair.Util;
 
@@ -13,6 +13,7 @@ namespace Repair.Games
     public class World
     {
 
+        public Action<IScreen> RequestScreenChange { get; set; }
         public Action RequestTransitionReset { get; set; }
         
         private List<WorldObject> WorldObjects = new List<WorldObject>(); 
@@ -22,12 +23,14 @@ namespace Repair.Games
         private Camera _camera;
         public Action<string> RequestNotification { get; set; }
         public Map Map { get; }
-        
+        private int _currentLevel = 1;
         public Player Player { get; set; }
+
+        private Timer ProgressTimer;
         
         public World()
         {
-            Map = new Map(MapSize, MapSize);
+            Map = new Map(ContentChest.Maps[_currentLevel]);
 
             InputManager.OnDownHeld = () => Player.Move(0, 1);
             InputManager.OnUpHeld = () => Player.Move(0, -1);
@@ -37,6 +40,7 @@ namespace Repair.Games
             InputManager.OnLastSlotPressed = () => UIManager.LastSlot();
             InputManager.OnInteractPressed = UseItem;
             InputManager.OnPickupPressed = PickupWorldObject;
+            InputManager.OnBackPressed = ResetWorld;
             
             Map.RequestNotification = s => RequestNotification?.Invoke(s);
 
@@ -44,6 +48,15 @@ namespace Repair.Games
             
             SetupPlayer();
             SetupCamera();
+
+            ProgressTimer = new Timer();
+            ProgressTimer.Elapsed += (e, b) => Progress();
+            ProgressTimer.Start();
+        }
+
+        private void ResetWorld()
+        {
+            RequestScreenChange?.Invoke(new GameScreen());
         }
 
         private void PickupWorldObject()
@@ -105,26 +118,11 @@ namespace Repair.Games
         {
             foreach (var obj in WorldObjects)
             {
+                obj.Progress();
+
                 var drynessEffect = obj.GetDrynessEffect();
                 var drynessRadius = obj.GetDrynessRadius();
-                
-                var progressed = obj.Progress();
 
-                if (!progressed && obj.DropsOnFinalStage != null)
-                {
-                    var ran = Randomizer.RandomMinMax(0, 100);
-                    if (ran <= (100 * obj.DropRarity))
-                    {
-                        Player.Inventory.AddItem(new Item()
-                        {
-                            ItemName = obj.ObjectName[0],
-                            FileName = obj.FileName[0],
-                            Usable = true
-                        });
-                    }
-                }
-                
-                if (!progressed) continue;
                 if (!obj.HasProgressEffect) continue;
                 if (drynessRadius <= 0) continue;
                 
@@ -140,6 +138,24 @@ namespace Repair.Games
             }
         }
 
+        private void DropItemNextTo(WorldObject worldObject)
+        {
+                var item = new DroppedItem()
+                {
+                    ItemName = worldObject.ObjectName[0],
+                    FileName = worldObject.FileName[0],
+                    Tile = Map.GetRandomTileInRadius(worldObject.Tile, 1),
+                    Usable = true,
+                };
+
+                item.Tile.DroppedItem = item;
+
+                if (Player.Tile == item.Tile)
+                {
+                    Player.PickupItemAt(item.Tile);
+                }
+        }
+
         private void AddWorldObject(WorldObject worldObject)
         {
             WorldObjects.Add(worldObject);
@@ -147,8 +163,8 @@ namespace Repair.Games
 
         private void SetupPlayer()
         {
-            var playerStartTile = Map.GetRandomDryTile();
-            
+            var playerStartTile = Map.GetPlayerStartingTile();
+
             Player = new Player(playerStartTile, CreateStartingInventory())
             {
                 OnTryMove = TryMove
@@ -157,24 +173,13 @@ namespace Repair.Games
             UIManager.Inventory = Player.Inventory;
         }
 
-        private static Inventory CreateStartingInventory()
+        private Inventory CreateStartingInventory()
         {
             var inventory = new Inventory();
-            
-            inventory.AddItem(new Item()
-            {
-                ItemName = "Tent",
-                FileName = "tent",
-                Usable = true
-            });
-            
-            inventory.AddItem(new Item()
-            {
-                ItemName = "Seed",
-                FileName = "seed",
-                Usable = true
-            }, 5);
 
+            foreach (var item in Map.GetStartingItems())
+                inventory.AddItem(item, item.Count);
+            
             return inventory;
         }
 
@@ -224,5 +229,5 @@ namespace Repair.Games
         }
 
     }
-    
+
 }

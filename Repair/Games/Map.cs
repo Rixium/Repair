@@ -9,12 +9,11 @@ namespace Repair.Games
 {
     public class Map
     {
+        private readonly Queue<WorldObject> _objectQueue = new Queue<WorldObject>();
 
-        public Queue<WorldObject> _objectQueue = new Queue<WorldObject>();
-        
-        public int MapWidth { get; set; }
+        private int MapWidth { get; set; }
 
-        public int MapHeight { get; set; }
+        private int MapHeight { get; set; }
         
         public int TileSize { get; set; } = 24;
         public Action<string> RequestNotification { get; set; }
@@ -25,15 +24,21 @@ namespace Repair.Games
         private Animation WaterEdgeAnimation;
         private Animation WaterAnimation;
 
-        public Map(int mapWidth, int mapHeight)
+        private MapInformation MapInformation;
+
+        public Map(MapData mapData)
         {
-            MapWidth = mapWidth;
-            MapHeight = mapHeight;
+            MapWidth = mapData.Width;
+            MapHeight = mapData.Height;
+
+            MapInformation = WorldGenerator.Create(this, mapData);
+            _tiles = MapInformation.Tiles;
             
-            _tiles = WorldGenerator.Generate(this, mapWidth, mapHeight);
             CalculateDryness();
             CreateAnimations();
         }
+
+        public Tile GetPlayerStartingTile() => MapInformation.Start;
 
         private void CreateAnimations()
         {
@@ -73,11 +78,12 @@ namespace Repair.Games
                 {
                     if (_tiles[i, j].IsDry)
                     {
-                        var imageName = RenderHelper.CreateNeighborString(_tiles[i, j]);
-                        ContentChest.Grass.TryGetValue($"grass_{imageName}", out var texture);
-                        if (texture == null) texture = ContentChest.Grass["grass_"];
-                        spriteBatch.Draw(texture,
-                                new Vector2(i * TileSize, j * TileSize), Color.White);
+                        var tilePos = RenderHelper.CalculateNeighbourBit(_tiles[i, j]);
+                        var x = tilePos % 4;
+                        var y = tilePos / 4; 
+                        
+                        spriteBatch.Draw(ContentChest.Grass,
+                                new Vector2(i * TileSize, j * TileSize), new Rectangle(x * TileSize, y * TileSize, TileSize, TileSize), Color.White);
                     }
                     else
                     {
@@ -93,6 +99,11 @@ namespace Repair.Games
                         }
                     }
 
+                    if (_tiles[i, j].DroppedItem != null)
+                    {
+                        var item = _tiles[i, j].DroppedItem;
+                        spriteBatch.Draw(ContentChest.Items[item.FileName], new Rectangle(i * TileSize, j * TileSize, TileSize, TileSize), Color.White);
+                    }
                     if (_tiles[i, j].WorldObject != null)
                     {
                         _objectQueue.Enqueue(_tiles[i, j].WorldObject);
@@ -146,9 +157,19 @@ namespace Repair.Games
 
         public Tile GetRandomTileInRadius(Tile tile, int radius)
         {
-            var randomTileX = Randomizer.RandomMinMax(tile.X - radius, tile.X + radius);
-            var randomTileY = Randomizer.RandomMinMax(tile.Y - radius, tile.Y + radius);
+            var randomTileX = tile.X;
+            var randomTileY = tile.Y;
+
+            while ((randomTileX == tile.X && randomTileY == tile.Y) || GetTileAt(randomTileX, randomTileY) == null 
+                   || GetTileAt(randomTileX, randomTileY).WorldObject != null || GetTileAt(randomTileX, randomTileY).DroppedItem != null
+                   || !GetTileAt(randomTileX, randomTileY).IsDry) {
+                randomTileX = Randomizer.RandomMinMax(tile.X - radius, tile.X + radius);
+                randomTileY = Randomizer.RandomMinMax(tile.Y - radius, tile.Y + radius);
+            }
+            
             return GetTileAt(randomTileX, randomTileY);
         }
+
+        public IEnumerable<Item> GetStartingItems() => MapInformation.StartingItems;
     }
 }

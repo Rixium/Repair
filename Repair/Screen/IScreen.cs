@@ -11,6 +11,7 @@ namespace Repair.Screen
         Action<IScreen> RequestScreenChange { get; set; }
         Action<string> RequestNotification { get; set; }
         UIManager UIManager { get; set; }
+        Color BackColor { get; set; }
 
         void Update(float delta);
 

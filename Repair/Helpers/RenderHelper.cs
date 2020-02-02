@@ -5,39 +5,25 @@ namespace Repair.Helpers
 {
     public class RenderHelper { 
         
-        private static readonly StringBuilder StringBuilder = new StringBuilder();
-
-        public static string CreateNeighborString(Tile tile)
+        public static int CalculateNeighbourBit(Tile tile)
         {
-            StringBuilder.Clear();
-
             var northTile = tile.North;
-            var northEastTile = tile.NorthEast;
             var eastTile = tile.East;
-            var southEast = tile.SouthEast;
             var southTile = tile.South;
-            var southWest = tile.SouthWest;
             var westTile = tile.West;
-            var northWest = tile.NorthWest;
 
-            if (northTile != null && !northTile.IsDry)
-                StringBuilder.Append("n_");
-            if (northEastTile != null && !northEastTile.IsDry)
-                StringBuilder.Append("ne_");
-            if (eastTile != null && !eastTile.IsDry)
-                StringBuilder.Append("e_");
-            if (southEast != null && !southEast.IsDry)
-                StringBuilder.Append("se_");
-            if (southTile != null && !southTile.IsDry)
-                StringBuilder.Append("s_");
-            if (southWest != null && !southWest.IsDry)
-                StringBuilder.Append("sw_");
-            if (westTile != null && !westTile.IsDry)
-                StringBuilder.Append("w_");
-            if (northWest != null && !northWest.IsDry)
-                StringBuilder.Append("nw_");
+            var sum = 0;
 
-            return StringBuilder.ToString();
+            if (northTile != null && northTile.IsDry)
+                sum += 1 * 1;
+            if (eastTile != null && eastTile.IsDry)
+                sum += 1 * 4;
+            if (southTile != null && southTile.IsDry)
+                sum += 1 * 8;
+            if (westTile != null && westTile.IsDry)
+                sum += 1 * 2;
+
+            return sum;
         }
     }
 }

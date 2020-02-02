@@ -1,12 +1,12 @@
 namespace Repair.Games
 {
-    public class Item
+    public class DroppedItem
     {
+        
+        public Tile Tile { get; set; }
         
         public string ItemName { get; set; }
         public string FileName { get; set; }
-        public bool Usable { get; set; } = true;
-        
-        public int Count { get; set; }
+        public bool Usable { get; set; }
     }
 }

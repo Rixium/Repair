@@ -24,6 +24,7 @@ namespace Repair.Input
         public static Action OnNextSlotPressed { get; set; }
         public static Action OnLastSlotPressed { get; set; }
         public static Action OnPickupPressed { get; set; }
+        public static Action OnBackPressed { get; set; }
 
 
         public static void Update(float delta)

@@ -99,9 +99,6 @@ namespace Repair
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-            
             var delta = gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
             _notifyManager.Update(delta);
 
@@ -114,7 +111,7 @@ namespace Repair
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.White);
+            GraphicsDevice.Clear(_screenManager.GetBackColor());
 
             _screenManager.Draw(_spriteBatch);
             

@@ -49,11 +49,14 @@
     <Compile Include="GameProperties.cs" />
     <Compile Include="Games\Animation.cs" />
     <Compile Include="Games\Direction.cs" />
+    <Compile Include="Games\DroppedItem.cs" />
     <Compile Include="Games\IEntity.cs" />
     <Compile Include="Games\Inventory.cs" />
     <Compile Include="Games\Item.cs" />
     <Compile Include="Games\ItemData.cs" />
     <Compile Include="Games\Map.cs" />
+    <Compile Include="Games\MapData.cs" />
+    <Compile Include="Games\MapInformation.cs" />
     <Compile Include="Games\Player.cs" />
     <Compile Include="Games\Slot.cs" />
     <Compile Include="Games\Tile.cs" />

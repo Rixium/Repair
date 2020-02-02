@@ -4,35 +4,52 @@ namespace Repair.Games
 {
     public class WorldGenerator
     {
+        private const int Starting = 2;
+        private const int Seed = 3;
+        private const int GearBox = 4;
+        private const int Turbine = 5;
 
-        public static Tile[,] Generate(Map map, int width, int height)
+        public static MapInformation Create(Map map, MapData mapData)
         {
-            var noise = new FastNoise();
-            noise.SetNoiseType(FastNoise.NoiseType.PerlinFractal);
-            noise.SetFrequency(0.03f);
+            var tiles = new Tile[mapData.Width, mapData.Height];
+            Tile startingTile = null;
             
-            var tiles = new Tile[width, height];
-
-            for (var x = 0; x < width; x++)
+            for (var i = 0; i < mapData.Width * mapData.Height; i++)
             {
-                for (var y = 0; y < height; y++)
+                var x = i % mapData.Width;
+                var y = i / mapData.Width;
+                
+                tiles[x, y] = new Tile()
                 {
-                    var dryness = noise.GetNoise(x, y);
+                    X = x,
+                    Y = y,
+                    Map = map,
+                    Dryness = mapData.Data[i]
+                };
 
-                    tiles[x, y] = new Tile()
+                if (mapData.Data[i] == Starting)
+                {
+                    startingTile = tiles[x, y];
+                }
+
+                if (mapData.Data[i] == Seed)
+                {
+                    tiles[x, y].DroppedItem = new DroppedItem()
                     {
-                        X = x,
-                        Y = y,
-                        Map = map,
-                        Dryness = dryness
+                        ItemName = "Seed",
+                        FileName = "seed",
+                        Tile = tiles[x, y],
+                        Usable = true
                     };
-                    
                 }
             }
 
-            
-            return tiles;
+            return new MapInformation()
+            {
+                Tiles = tiles,
+                Start = startingTile,
+                StartingItems = mapData.StartingInventory
+            };
         }
-
     }
 }

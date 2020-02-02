@@ -73,6 +73,11 @@ namespace Repair.Input
                 InputManager.OnPickupPressed?.Invoke();
             }
 
+            if (state.IsKeyDown(Keys.Escape) && _lastState.IsKeyUp(Keys.Escape))
+            {
+                InputManager.OnBackPressed?.Invoke();
+            }
+
             _lastState = state;
         }
     }

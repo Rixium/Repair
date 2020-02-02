@@ -83,6 +83,15 @@ namespace Repair.Input
                     InputManager.OnPickupPressed?.Invoke();
                 }
             }
+            
+            
+            if (state.Buttons.Back == ButtonState.Pressed)
+            {
+                if (_lastState.Buttons.Back == ButtonState.Released)
+                {
+                    InputManager.OnBackPressed?.Invoke();
+                }
+            }
 
             _lastState = state;
         }
