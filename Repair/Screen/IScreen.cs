@@ -12,6 +12,8 @@ namespace Repair.Screen
         Action<string> RequestNotification { get; set; }
         UIManager UIManager { get; set; }
         Color BackColor { get; set; }
+        
+        bool ShouldUpdateInputManager { get; set; }
 
         void Update(float delta);
 

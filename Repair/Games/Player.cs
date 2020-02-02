@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Repair.Util;
 
 namespace Repair.Games
 {
@@ -65,6 +66,16 @@ namespace Repair.Games
             {
                 PickupItemAt(Tile);
             }
+            else
+            {
+                PlayRandomWalkSound();
+            }
+        }
+
+        private void PlayRandomWalkSound()
+        {
+            var ran = Randomizer.RandomMinMax(0, ContentChest.Walk.Length);
+            ContentChest.Walk[ran].Play(1f, 0, 0);
         }
 
         public Texture2D ActiveImage => ContentChest.Player[Facing].Current;

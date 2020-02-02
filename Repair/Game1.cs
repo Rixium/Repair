@@ -55,6 +55,7 @@ namespace Repair
 
             InputManager.OnGamePadConnected += OnGamePadConnected;
             InputManager.OnGamePadDisconnected += OnGamePadDisconnected;
+            
             base.Initialize();
         }
 
@@ -101,7 +102,7 @@ namespace Repair
             var delta = gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
             _notifyManager.Update(delta);
 
-            if (_screenManager.IsReady)
+            if (_screenManager.IsReady && _screenManager.ShouldUpdateInputManager)
                 InputManager.Update(delta);
 
             _screenManager.Update(delta);

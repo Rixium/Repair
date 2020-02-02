@@ -51,6 +51,8 @@ namespace Repair
         public static SoundEffect PickUp { get; set; }
         public static SoundEffect WindMillSound { get; set; }
         public static SoundEffect[] Combos { get; set; }
+        public static SoundEffect[] Walk { get; set; }
+        public static SoundEffect SplashSound { get; set; }
 
         public static void Initialize(ContentManager contentManager)
         {
@@ -66,8 +68,10 @@ namespace Repair
             Pixel = _contentManager.Load<Texture2D>("Images/pixel");
             Splash = _contentManager.Load<Texture2D>("Images/splash");
             NotifySound = _contentManager.Load<SoundEffect>("notify");
+            SplashSound = _contentManager.Load<SoundEffect>("splash");
         }
-        
+
+
         public static void Load()
         {
             if (_loadInitialized) return;
@@ -100,6 +104,15 @@ namespace Repair
             Combos[1]   = _contentManager.Load<SoundEffect>("combo2");
             Combos[2]  = _contentManager.Load<SoundEffect>("combo3");
             Combos[3]  = _contentManager.Load<SoundEffect>("combo4");
+            
+
+            Walk = new[]
+            {
+                _contentManager.Load<SoundEffect>("walk1"),
+                _contentManager.Load<SoundEffect>("walk2"),
+                _contentManager.Load<SoundEffect>("walk3"),
+                _contentManager.Load<SoundEffect>("walk4")
+            };
             
             Grass = _contentManager.Load<Texture2D>("Images/grass");
             

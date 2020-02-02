@@ -14,6 +14,7 @@ namespace Repair.Screen
         public Action<string> RequestNotification { get; set; }
         public UIManager UIManager { get; set; }
         public Color BackColor { get; set; } = Color.White;
+        public bool ShouldUpdateInputManager { get; set; } = true;
 
         private const int ButtonPadding = 10;
         

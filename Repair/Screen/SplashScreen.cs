@@ -10,12 +10,14 @@ namespace Repair.Screen
     {
 
         private readonly Rectangle _splashRectangle;
+        private bool _started;
 
         public Action RequestQuit { get; set; }
         public Action<IScreen> RequestScreenChange { get; set; }
         public Action<string> RequestNotification { get; set; }
         public UIManager UIManager { get; set; }
         public Color BackColor { get; set; } = Color.White;
+        public bool ShouldUpdateInputManager { get; set; } = false;
 
         public SplashScreen()
         {
@@ -40,7 +42,23 @@ namespace Repair.Screen
 
         private void OnContentLoaded()
         {
-            RequestScreenChange?.Invoke(new MainMenuScreen());
+            if (_started) return;
+            _started = true;
+
+            ContentChest.SplashSound.Play();
+            
+            var timer = new Timer
+            {
+                Interval = 2000
+            };
+
+            timer.Elapsed += (e, b) =>
+            {
+                timer.Stop();
+                RequestScreenChange?.Invoke(new MainMenuScreen());
+            };
+            
+            timer.Start();
         }
 
         public void Draw(SpriteBatch spriteBatch)

@@ -521,6 +521,12 @@
 /processorParam:Quality=Best
 /build:Sounds/tent.wav
 
+#begin splash.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:splash.wav
+
 #begin up1.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -544,6 +550,36 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:up2.png
+
+#begin walk1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:walk1.wav
+
+#begin walk1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:walk1.wav
+
+#begin walk2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:walk2.wav
+
+#begin walk3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:walk3.wav
+
+#begin walk4.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:walk4.wav
 
 #begin windmill.wav
 /importer:WavImporter

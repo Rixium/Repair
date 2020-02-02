@@ -17,6 +17,7 @@ namespace Repair.Screen
         }
 
         public bool IsReady => _transition.HasEnded() && _activeScreen != null;
+        public bool ShouldUpdateInputManager => _activeScreen != null && _activeScreen.ShouldUpdateInputManager;
 
         public void SetScreen(IScreen screen)
         {
