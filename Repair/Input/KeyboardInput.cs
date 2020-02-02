@@ -6,6 +6,8 @@ namespace Repair.Input
     {
 
         private KeyboardState _lastState;
+        private float HoldThreshold = 0.1f;
+        public float HoldTimer { get; set; }
         
         public void Update(float delta)
         {
@@ -16,19 +18,35 @@ namespace Repair.Input
                 if (_lastState.IsKeyUp(Keys.S))
                 {
                     InputManager.OnDownPressed?.Invoke();
+                    HoldTimer = 0;
                 }
                 else
                 {
-                    InputManager.OnDownHeld?.Invoke();   
+                    if (HoldTimer > HoldThreshold)
+                    {
+                        InputManager.OnDownHeld?.Invoke();
+                    }
+                    else
+                    {
+                        HoldTimer += delta;
+                    }
                 }
             } else if (state.IsKeyDown(Keys.W)) 
             {
                 if(_lastState.IsKeyUp(Keys.W)) {
                     InputManager.OnUpPressed?.Invoke();
+                    HoldTimer = 0;
                 }
                 else
                 {
-                    InputManager.OnUpHeld?.Invoke();
+                    if (HoldTimer > HoldThreshold)
+                    {
+                        InputManager.OnUpHeld?.Invoke();
+                    }
+                    else
+                    {
+                        HoldTimer += delta;
+                    }
                 }
                 
             }
@@ -38,39 +56,48 @@ namespace Repair.Input
                 if (_lastState.IsKeyUp(Keys.D))
                 {
                     InputManager.OnRightPressed?.Invoke();
+                    HoldTimer = 0;
                 }
                 else
                 {
-                    InputManager.OnRightHeld?.Invoke();   
+                    if (HoldTimer > HoldThreshold)
+                    {
+                        InputManager.OnRightHeld?.Invoke();   
+                    }
+                    else
+                    {
+                        HoldTimer += delta;
+                    }
                 }
             } else if (state.IsKeyDown(Keys.A)) 
             {
                 if(_lastState.IsKeyUp(Keys.A)) {
                     InputManager.OnLeftPressed?.Invoke();
+                    HoldTimer = 0;
                 }
                 else
                 {
-                    InputManager.OnLeftHeld?.Invoke();
+                    if (HoldTimer > HoldThreshold)
+                    {
+                        InputManager.OnLeftHeld?.Invoke();
+                    }
+                    else
+                    {
+                        HoldTimer += delta;
+                    }
                 }
                 
             }
             
-            if (state.IsKeyDown(Keys.E) && _lastState.IsKeyUp(Keys.E))
-            {
-                InputManager.OnInteractPressed?.Invoke();
-            }
-
-            if (state.IsKeyDown(Keys.OemMinus) && _lastState.IsKeyUp(Keys.OemMinus))
-            {
-                InputManager.OnLastSlotPressed?.Invoke();
-            } else if (state.IsKeyDown(Keys.OemPlus) && _lastState.IsKeyUp(Keys.OemPlus))
-            {
-                InputManager.OnNextSlotPressed?.Invoke();
-            }
-
             if (state.IsKeyDown(Keys.Space) && _lastState.IsKeyUp(Keys.Space))
             {
-                InputManager.OnPickupPressed?.Invoke();
+                InputManager.OnInteractPressed?.Invoke();
+                HoldTimer = 0;
+            }
+
+            if (state.IsKeyDown(Keys.Tab) && _lastState.IsKeyUp(Keys.Tab))
+            {
+                InputManager.OnNextSlotPressed?.Invoke();
             }
 
             if (state.IsKeyDown(Keys.Escape) && _lastState.IsKeyUp(Keys.Escape))

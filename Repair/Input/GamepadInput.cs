@@ -7,7 +7,8 @@ namespace Repair.Input
     {
 
         private GamePadState _lastState;
-        private float HoldThreshold = 0.1f; 
+        private float HoldThreshold = 0.1f;
+        public float HoldTimer { get; set; }
         
         public void Update(float delta)
         {
@@ -122,6 +123,5 @@ namespace Repair.Input
             _lastState = state;
         }
 
-        public float HoldTimer { get; set; }
     }
 }
