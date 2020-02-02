@@ -2,6 +2,7 @@
 using System.Net.Http;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using Repair.Input;
 using Repair.Notify;
 using Repair.Screen;
@@ -77,9 +78,17 @@ namespace Repair
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             
+#if DEBUG
+            MediaPlayer.Stop();
+            MediaPlayer.Play(ContentChest.GameMusic);
             ContentChest.BasicLoad();
-            
+            ContentChest.Load();
+            RequestScreenChange(new GameScreen(ContentChest.Maps.Count));
+#else
+            ContentChest.BasicLoad();
             RequestScreenChange(new SplashScreen());
+#endif
+            
         }
 
         private void RequestScreenChange(IScreen screen)

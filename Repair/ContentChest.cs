@@ -140,7 +140,10 @@ namespace Repair
             {
                 var fileName = Path.GetFileName(file).Split('.')[0];
                 var data = File.ReadAllText($"{_contentManager.RootDirectory}/Maps/{fileName}.json", Encoding.UTF8);
-                Maps.Add(int.Parse(fileName), JsonConvert.DeserializeObject<MapData>(data));
+                var map = JsonConvert.DeserializeObject<MapData>(data);
+                map.Data = map.Layers[0].Data;
+                
+                Maps.Add(int.Parse(fileName), map);
             }
             
             SlotBorder = _contentManager.Load<Texture2D>("Images/slot_border");

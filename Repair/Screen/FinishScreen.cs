@@ -1,4 +1,5 @@
 using System;
+using System.Timers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Repair.UI;
@@ -16,6 +17,23 @@ namespace Repair.Screen
         public Color BackColor { get; set; } = new Color(56, 90, 113);
         public bool ShouldUpdateInputManager { get; set; } = false;
 
+        public FinishScreen()
+        {
+            var timer = new Timer
+            {
+                Interval = 4000
+            };
+            
+            timer.Elapsed += (e, b) =>
+            {
+                RequestScreenChange?.Invoke(new MainMenuScreen());
+                timer.Stop();
+                ;
+            };
+            
+            timer.Start();
+        }
+        
         public void Update(float delta)
         {
             

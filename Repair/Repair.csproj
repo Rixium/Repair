@@ -54,6 +54,7 @@
     <Compile Include="Games\Inventory.cs" />
     <Compile Include="Games\Item.cs" />
     <Compile Include="Games\ItemData.cs" />
+    <Compile Include="Games\Layer.cs" />
     <Compile Include="Games\Map.cs" />
     <Compile Include="Games\MapData.cs" />
     <Compile Include="Games\MapInformation.cs" />
@@ -160,6 +161,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Maps\2.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Maps\3.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\pop.wav">

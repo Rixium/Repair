@@ -176,6 +176,11 @@ namespace Repair.Games
             var right = tile.East;
             var top = tile.North;
             var bottom = tile.South;
+            var nw = tile.NorthWest;
+            var ne = tile.NorthEast;
+            var se = tile.SouthEast;
+            var sw = tile.SouthWest;
+            
             var accumulated = 0;
             var max = accumulated;
 
@@ -194,7 +199,7 @@ namespace Repair.Games
                 right.WorldObject.AddPower();
                 
                 if (right.WorldObject.Power > max)
-                    max = right.WorldObject.Power;
+                    max = ne.WorldObject.Power;
 
                 accumulated++;
             }
@@ -215,6 +220,46 @@ namespace Repair.Games
                 
                 if (bottom.WorldObject.Power > max)
                     max = bottom.WorldObject.Power;
+
+                accumulated++;
+            }
+            
+            if (sw.WorldObject != null && sw.WorldObject.ObjectType == obj.ObjectType)
+            {
+                sw.WorldObject.AddPower();
+                
+                if (sw.WorldObject.Power > max)
+                    max = sw.WorldObject.Power;
+
+                accumulated++;
+            }
+            
+            if (se.WorldObject != null && se.WorldObject.ObjectType == obj.ObjectType)
+            {
+                se.WorldObject.AddPower();
+                
+                if (se.WorldObject.Power > max)
+                    max = se.WorldObject.Power;
+
+                accumulated++;
+            }
+            
+            if (nw.WorldObject != null && nw.WorldObject.ObjectType == obj.ObjectType)
+            {
+                nw.WorldObject.AddPower();
+                
+                if (nw.WorldObject.Power > max)
+                    max = nw.WorldObject.Power;
+
+                accumulated++;
+            }
+            
+            if (ne.WorldObject != null && ne.WorldObject.ObjectType == obj.ObjectType)
+            {
+                ne.WorldObject.AddPower();
+                
+                if (ne.WorldObject.Power > max)
+                    max = ne.WorldObject.Power;
 
                 accumulated++;
             }
@@ -324,6 +369,8 @@ namespace Repair.Games
         {
             var inventory = new Inventory();
 
+            if(Map.GetStartingItems() == null) return new Inventory();
+            
             foreach (var item in Map.GetStartingItems())
                 inventory.AddItem(item, item.Count);
             

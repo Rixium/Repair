@@ -23,13 +23,11 @@ namespace Repair.Screen
 
         public MainMenuScreen()
         {
-            if (MediaPlayer.State != MediaState.Playing)
-            {
-                MediaPlayer.IsRepeating = true;
-                MediaPlayer.Volume = 0.2f;
-                MediaPlayer.Play(ContentChest.MainMusic);
-            }
-
+            MediaPlayer.Stop();
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Volume = 0.2f;
+            MediaPlayer.Play(ContentChest.MainMusic);
+            
             var startText = "Start";
             var quitText = "Quit";
             
@@ -74,7 +72,11 @@ namespace Repair.Screen
             
             MediaPlayer.Stop();
             MediaPlayer.Play(ContentChest.GameMusic);
+#if DEBUG
+            RequestScreenChange?.Invoke(new GameScreen(ContentChest.Maps.Count));
+#else
             RequestScreenChange?.Invoke(new GameScreen());
+#endif
         }
 
         private void OnInteractPressed()
