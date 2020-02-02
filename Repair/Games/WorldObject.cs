@@ -36,6 +36,7 @@ namespace Repair.Games
         public bool HasDropped { get; set; }
         public bool Repaired { get; set; }
         public List<string> RepairedItems { get; set; } = new List<string>();
+        public bool EndsLevelOnRepair { get; set; }
 
         public bool CreateInstance(Tile tile)
         {
@@ -67,7 +68,8 @@ namespace Repair.Games
                 Repairable = Repairable,
                 AnimationOnRepair = AnimationOnRepair,
                 Repaired = Repaired,
-                RepairRequirements = RepairRequirements
+                RepairRequirements = RepairRequirements,
+                EndsLevelOnRepair = EndsLevelOnRepair
             };
 
             tile.WorldObject = worldObject;
@@ -100,13 +102,21 @@ namespace Repair.Games
             var totalRadius = DrynessRadius[Stage - 1];
             var extra = 0;
 
-            if (Tile.East != null && Tile.East.WorldObject != null && Tile.East.WorldObject.ObjectType == ObjectType)
+            if (Tile.East?.WorldObject != null && Tile.East.WorldObject.ObjectType == ObjectType)
                 extra += 2;
-            if (Tile.West != null && Tile.West.WorldObject != null && Tile.West.WorldObject.ObjectType == ObjectType)
+            if (Tile.West?.WorldObject != null && Tile.West.WorldObject.ObjectType == ObjectType)
                 extra += 2;
-            if (Tile.North != null && Tile.North.WorldObject != null && Tile.North.WorldObject.ObjectType == ObjectType)
+            if (Tile.North?.WorldObject != null && Tile.North.WorldObject.ObjectType == ObjectType)
                 extra += 2;
-            if (Tile.South != null && Tile.South.WorldObject != null && Tile.South.WorldObject.ObjectType == ObjectType)
+            if (Tile.South?.WorldObject != null && Tile.South.WorldObject.ObjectType == ObjectType)
+                extra += 2;
+            if (Tile.NorthEast?.WorldObject != null && Tile.NorthEast.WorldObject.ObjectType == ObjectType)
+                extra += 2;
+            if (Tile.SouthWest?.WorldObject != null && Tile.SouthWest.WorldObject.ObjectType == ObjectType)
+                extra += 2;
+            if (Tile.SouthEast?.WorldObject != null && Tile.SouthEast.WorldObject.ObjectType == ObjectType)
+                extra += 2;
+            if (Tile.NorthWest?.WorldObject != null && Tile.NorthWest.WorldObject.ObjectType == ObjectType)
                 extra += 2;
 
             if(extra > 2)

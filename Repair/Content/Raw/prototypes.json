@@ -146,6 +146,7 @@
 		"TotalStages": 1,
 		"HasProgressEffect": true,
 		"CanPickUp":false,
-		"ObjectType": 2
+		"ObjectType": 2,
+		"EndsLevelOnRepair": true
 	}
 ]

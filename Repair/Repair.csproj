@@ -158,6 +158,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Maps\2.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Raw\prototypes.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

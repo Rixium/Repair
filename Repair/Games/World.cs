@@ -31,8 +31,10 @@ namespace Repair.Games
 
         private Timer ProgressTimer;
         
-        public World()
+        public World(int currentLevel)
         {
+            _currentLevel = currentLevel;
+            
             Map = new Map(ContentChest.Maps[_currentLevel]);
 
             WorldObjects = Map.WorldObjects;
@@ -66,7 +68,7 @@ namespace Repair.Games
         
         private void ResetWorld()
         {
-            RequestScreenChange?.Invoke(new GameScreen());
+            RequestScreenChange?.Invoke(new GameScreen(_currentLevel));
         }
 
         private void PickupWorldObject()
@@ -115,6 +117,23 @@ namespace Repair.Games
                 if (facing.WorldObject != null && facing.WorldObject.Repairable)
                 {
                     successful = facing.WorldObject.Repair(slot.Item.ItemName);
+
+                    if (facing.WorldObject.Repaired && facing.WorldObject.EndsLevelOnRepair)
+                    {
+                        var timer = new Timer
+                        {
+                            Interval = 2000
+                        };
+
+                        timer.Elapsed += (e, b) =>
+                        {
+                            timer.Stop();
+                            RequestScreenChange?.Invoke(new GameScreen(_currentLevel + 1));
+                        };
+
+                        timer.Start();
+
+                    }
                 }
             }
             else
@@ -215,15 +234,34 @@ namespace Repair.Games
 
                 if (!obj.HasProgressEffect) continue;
                 if (drynessRadius <= 0) continue;
-                
+
+                var northEast = obj.Tile.NorthEast;
+                var northWest = obj.Tile.NorthWest;
+                var southEast = obj.Tile.SouthEast;
+                var southWest = obj.Tile.SouthWest;
+
+                if (northEast != null)
+                    northEast.Dryness += drynessEffect;
+                if (northWest != null)
+                    northWest.Dryness += drynessEffect;
+                if (southEast != null)
+                    southEast.Dryness += drynessEffect;
+                if (southWest != null)
+                    southWest.Dryness += drynessEffect;
+
                 for (var i = obj.Tile.X - drynessRadius; i < obj.Tile.X + drynessRadius; i++)
                 {
-                    for (var j = obj.Tile.Y - drynessRadius; j < obj.Tile.Y + drynessRadius; j++)
-                    {
-                        var tile = Map.GetTileAt(i, j);
-                        if (tile == null) continue;
-                        tile.Dryness += drynessEffect;
-                    }
+                    
+                    var tile = Map.GetTileAt(i, obj.Tile.Y);
+                    if (tile == null) continue;
+                    tile.Dryness += drynessEffect;
+                }
+                
+                for (var j = obj.Tile.Y - drynessRadius; j < obj.Tile.Y + drynessRadius; j++)
+                {
+                    var tile = Map.GetTileAt(obj.Tile.X, j);
+                    if (tile == null) continue;
+                    tile.Dryness += drynessEffect;
                 }
             }
         }

@@ -19,9 +19,9 @@ namespace Repair.Screen
         
         private World _world;
 
-        public GameScreen()
+        public GameScreen(int level = 1)
         {
-            _world = new World
+            _world = new World(level)
             {
                 RequestNotification = s => RequestNotification?.Invoke(s),
                 RequestTransitionReset = ResetTransition,
