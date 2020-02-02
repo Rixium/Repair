@@ -20,6 +20,7 @@ namespace Repair
         private static ContentManager _contentManager;
 
         public static Texture2D Pixel { get; set; }
+        public static Texture2D MenuSelectBack { get; set; }
         public static Texture2D Splash { get; set; }
         public static Song MainMusic { get; set; }
         public static Song GameMusic { get; set; }
@@ -30,6 +31,7 @@ namespace Repair
         public static Texture2D NotifyLeft { get; set; }
         public static Texture2D NotifyRight { get; set; }
         public static Texture2D NotifyMid { get; set; }
+        public static Texture2D MenuBackground { get; set; }
         public static SoundEffect NotifySound { get; set; }
         public static SoundEffect ClickSound { get; set; }
         public static SoundEffect SelectSound { get; set; }
@@ -109,7 +111,8 @@ namespace Repair
             Combos[1]   = _contentManager.Load<SoundEffect>("combo2");
             Combos[2]  = _contentManager.Load<SoundEffect>("combo3");
             Combos[3]  = _contentManager.Load<SoundEffect>("combo4");
-            
+
+            MenuSelectBack = _contentManager.Load<Texture2D>("Images/menuselectback");
 
             Walk = new[]
             {
@@ -162,6 +165,7 @@ namespace Repair
 
             PopSound = _contentManager.Load<SoundEffect>("pop");
             InsertSound = _contentManager.Load<SoundEffect>("insert");
+            MenuBackground = _contentManager.Load<Texture2D>("menu");
 
             var text = File.ReadAllText($"{_contentManager.RootDirectory}/Raw/prototypes.json", Encoding.UTF8);
             var prototypes = JsonConvert.DeserializeObject<WorldObject[]>(text);

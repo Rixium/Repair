@@ -33,7 +33,7 @@ namespace Repair.Screen
             var quitText = "Quit";
             
             var size = ContentChest.ButtonFont.MeasureString(startText);
-            var middle = new Vector2(ScreenProperties.ScreenWidth / 2.0f - size.X / 2, ScreenProperties.ScreenHeight / 2.0f);
+            var middle = new Vector2(ScreenProperties.ScreenWidth / 2.0f - size.X / 2, ScreenProperties.ScreenHeight / 2.0f - 35);
             
             var startButton = new Button(ContentChest.ButtonFont, startText, Color.Black, middle)
             {
@@ -42,7 +42,7 @@ namespace Repair.Screen
 
             
             size = ContentChest.ButtonFont.MeasureString(quitText);
-            middle = new Vector2(ScreenProperties.ScreenWidth / 2.0f - size.X / 2, ScreenProperties.ScreenHeight / 2.0f + 40);
+            middle = new Vector2(ScreenProperties.ScreenWidth / 2.0f - size.X / 2, ScreenProperties.ScreenHeight / 2.0f);
 
             var quitButton = new Button(ContentChest.ButtonFont, quitText, Color.Black, middle)
             {
@@ -116,9 +116,13 @@ namespace Repair.Screen
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp);
+            spriteBatch.Draw(ContentChest.MenuBackground, new Rectangle(0, 0, ScreenProperties.ScreenWidth, ScreenProperties.ScreenHeight), Color.White * 0.4f);
             var titleSize = ContentChest.TitleFont.MeasureString(GameProperties.Title);
             var middle = new Vector2(ScreenProperties.ScreenWidth / 2.0f - titleSize.X / 2, ScreenProperties.ScreenHeight / 2.0f - titleSize.X - 20);
-            spriteBatch.DrawString(ContentChest.TitleFont, GameProperties.Title, middle, new Color(119, 221, 119));
+            
+            spriteBatch.Draw(ContentChest.MenuSelectBack, new Rectangle(ScreenProperties.ScreenWidth / 2 - ContentChest.MenuSelectBack.Width, 
+                    ScreenProperties.ScreenHeight / 2 - ContentChest.MenuSelectBack.Height, ContentChest.MenuSelectBack.Width * 2, ContentChest.MenuSelectBack.Height * 2), Color.White);
+            spriteBatch.DrawString(ContentChest.TitleFont, GameProperties.Title, middle, Color.White);
             
             foreach (var button in _buttons)
             {
