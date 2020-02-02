@@ -52,6 +52,7 @@ namespace Repair.Input
         {
             _activeInput = input;
         }
-        
+
+        public static IInput GetActiveInput() => _activeInput;
     }
 }

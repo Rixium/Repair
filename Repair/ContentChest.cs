@@ -54,6 +54,7 @@ namespace Repair
         public static SoundEffect[] Combos { get; set; }
         public static SoundEffect[] Walk { get; set; }
         public static SoundEffect SplashSound { get; set; }
+        public static Dictionary<string, Texture2D> InputImages { get; set; }
 
         public static void Initialize(ContentManager contentManager)
         {
@@ -84,6 +85,8 @@ namespace Repair
             ProtoTypes = new Dictionary<string, WorldObject>();
             Sounds = new Dictionary<string, SoundEffect>();
             Maps = new Dictionary<int, MapData>();
+            InputImages = new Dictionary<string, Texture2D>();
+            
             Combos = new SoundEffect[4];
             
             TitleFont = _contentManager.Load<SpriteFont>("Fonts/title");
@@ -144,6 +147,12 @@ namespace Repair
                 map.Data = map.Layers[0].Data;
                 
                 Maps.Add(int.Parse(fileName), map);
+            }
+            
+            foreach (var file in Directory.GetFiles(_contentManager.RootDirectory + "/Images/Input"))
+            {
+                var fileName = Path.GetFileName(file).Split('.')[0];
+                InputImages.Add(fileName.ToLower(), _contentManager.Load<Texture2D>($"Images/Input/{fileName}"));
             }
             
             SlotBorder = _contentManager.Load<Texture2D>("Images/slot_border");

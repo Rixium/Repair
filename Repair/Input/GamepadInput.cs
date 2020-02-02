@@ -9,7 +9,9 @@ namespace Repair.Input
         private GamePadState _lastState;
         private float HoldThreshold = 0.1f;
         public float HoldTimer { get; set; }
-        
+
+        public string Name { get; set; } = "Gamepad";
+
         public void Update(float delta)
         {
             var state = GamePad.GetState(0);

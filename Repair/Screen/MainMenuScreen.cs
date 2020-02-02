@@ -9,6 +9,7 @@ namespace Repair.Screen
 {
     public class MainMenuScreen : IScreen
     {
+        
         public Action RequestQuit { get; set; }
         public Action<IScreen> RequestScreenChange { get; set; }
         public Action<string> RequestNotification { get; set; }
@@ -126,6 +127,40 @@ namespace Repair.Screen
             
             spriteBatch.DrawString(ContentChest.ButtonFont, "<", _buttons[_activeButton].Right + new Vector2(10, 0), new Color(119, 221, 119));
 
+            var activeInput = InputManager.GetActiveInput();
+            var pos = new Vector2(10, ScreenProperties.ScreenHeight - 200);
+            var text = "Use: ";
+            var textSize = ContentChest.ButtonFont.MeasureString(text);
+            ContentChest.InputImages.TryGetValue($"{activeInput.Name}_Use".ToLower(), out var useTexture);
+            var text1 = "Move: ";
+            var textSize1 = ContentChest.ButtonFont.MeasureString(text1);
+            var pos1 = new Vector2(10, pos.Y + 50);
+            ContentChest.InputImages.TryGetValue($"{activeInput.Name}_Move".ToLower(), out var moveTexture);
+            var pos2 = new Vector2(10, pos1.Y + 50);
+            var text2 = "Inventory: ";
+            var textSize2 = ContentChest.ButtonFont.MeasureString(text2);
+            ContentChest.InputImages.TryGetValue($"{activeInput.Name}_Inventory".ToLower(), out var inventoryTexture);
+            var pos3 = new Vector2(10, pos2.Y + 50);
+            var text3 = "Reset: ";
+            var textSize3 = ContentChest.ButtonFont.MeasureString(text3);
+            ContentChest.InputImages.TryGetValue($"{activeInput.Name}_ResetLevel".ToLower(), out var resetLevelTexture);
+
+            pos1.X = pos2.X + textSize2.X  - textSize1.X;
+            pos3.X = pos2.X + textSize2.X - textSize3.X;
+            pos.X = pos2.X  + textSize2.X - textSize.X;
+
+            UIManager.DrawText(spriteBatch, ContentChest.ButtonFont, text, Color.Black, Color.White, 1, pos);
+            spriteBatch.Draw(useTexture, new Vector2(pos.X + textSize.X + 10, pos.Y + textSize.Y / 2 - useTexture.Height / 2), Color.White);
+            
+            UIManager.DrawText(spriteBatch, ContentChest.ButtonFont, text1, Color.Black, Color.White, 1, pos1);
+            spriteBatch.Draw(moveTexture, new Vector2(pos1.X  + textSize1.X + 10, pos1.Y + textSize1.Y / 2 - moveTexture.Height / 2), Color.White);
+            
+            UIManager.DrawText(spriteBatch, ContentChest.ButtonFont, text2, Color.Black, Color.White, 1, pos2);
+            spriteBatch.Draw(inventoryTexture, new Vector2(pos2.X + textSize2.X + 10, pos2.Y + textSize2.Y / 2 - inventoryTexture.Height / 2), Color.White);
+            
+            UIManager.DrawText(spriteBatch, ContentChest.ButtonFont, text3, Color.Black, Color.White, 1, pos3);
+            spriteBatch.Draw(resetLevelTexture, new Vector2(pos3.X + textSize3.X + 10, pos3.Y + textSize3.Y / 2 - resetLevelTexture.Height / 2), Color.White);
+                
             spriteBatch.End();
         }
         

@@ -8,7 +8,9 @@ namespace Repair.Input
         private KeyboardState _lastState;
         private float HoldThreshold = 0.1f;
         public float HoldTimer { get; set; }
-        
+
+        public string Name { get; set; } = "Keyboard";
+
         public void Update(float delta)
         {
             var state = Keyboard.GetState();
@@ -100,7 +102,7 @@ namespace Repair.Input
                 InputManager.OnNextSlotPressed?.Invoke();
             }
 
-            if (state.IsKeyDown(Keys.Escape) && _lastState.IsKeyUp(Keys.Escape))
+            if (state.IsKeyDown(Keys.R) && _lastState.IsKeyUp(Keys.R))
             {
                 InputManager.OnBackPressed?.Invoke();
             }
