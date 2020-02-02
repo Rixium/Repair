@@ -71,21 +71,28 @@
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
+/processorParam:TextureFormat=NoChange
 /build:Fonts/button.spritefont
+
+#begin Fonts/credits.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/credits.spritefont
 
 #begin Fonts/slot.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
+/processorParam:TextureFormat=NoChange
 /build:Fonts/slot.spritefont
 
 #begin Fonts/title.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
+/processorParam:TextureFormat=NoChange
 /build:Fonts/title.spritefont
 
 #begin Images/grass.png
@@ -400,6 +407,12 @@
 /processorParam:TextureFormat=Color
 /build:Images/WorldObjects/turbine4.png
 
+#begin insert.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:insert.wav
+
 #begin left1.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -444,6 +457,12 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:pickup.wav
+
+#begin pop.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:pop.wav
 
 #begin Raw/GREEN NATURE.ttf
 /copy:Raw/GREEN NATURE.ttf
@@ -525,4 +544,10 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:up2.png
+
+#begin windmill.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:windmill.wav
 

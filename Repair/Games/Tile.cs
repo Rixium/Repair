@@ -24,6 +24,12 @@ namespace Repair.Games
         public DroppedItem DroppedItem { get; set; }
 
         public WorldObject WorldObject;
-        
+
+        public bool AddDryness(float drynessEffect)
+        {
+            var wasDry = IsDry;
+            Dryness += drynessEffect;
+            return IsDry != wasDry;
+        }
     }
 }

@@ -74,7 +74,7 @@ namespace Repair.UI
         }
 
 
-        private static void DrawText(SpriteBatch spriteBatch, SpriteFont font, string text, Color backColor, Color frontColor, float scale, Vector2 position)
+        public static void DrawText(SpriteBatch spriteBatch, SpriteFont font, string text, Color backColor, Color frontColor, float scale, Vector2 position)
         {
             var origin = Vector2.Zero;
             spriteBatch.DrawString(font, text, position + new Vector2(1 * scale, 1 * scale), backColor, 0, origin, scale, SpriteEffects.None, 1f);

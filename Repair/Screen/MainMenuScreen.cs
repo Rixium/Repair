@@ -22,8 +22,12 @@ namespace Repair.Screen
 
         public MainMenuScreen()
         {
-            MediaPlayer.Volume = 0.5f;
-            MediaPlayer.Play(ContentChest.MainMusic);
+            if (MediaPlayer.State != MediaState.Playing)
+            {
+                MediaPlayer.IsRepeating = true;
+                MediaPlayer.Volume = 0.2f;
+                MediaPlayer.Play(ContentChest.MainMusic);
+            }
 
             var startText = "Start";
             var quitText = "Quit";

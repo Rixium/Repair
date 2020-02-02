@@ -118,6 +118,10 @@ namespace Repair.Games
                 {
                     successful = facing.WorldObject.Repair(slot.Item.ItemName);
 
+                    if (successful)
+                    {
+                        ContentChest.InsertSound.Play();
+                    }
                     if (facing.WorldObject.Repaired && facing.WorldObject.EndsLevelOnRepair)
                     {
                         var timer = new Timer
@@ -125,10 +129,18 @@ namespace Repair.Games
                             Interval = 2000
                         };
 
+                        ContentChest.WindMillSound.Play();
                         timer.Elapsed += (e, b) =>
                         {
                             timer.Stop();
-                            RequestScreenChange?.Invoke(new GameScreen(_currentLevel + 1));
+                            if (GameScreen.LevelExists(_currentLevel + 1))
+                            {
+                                RequestScreenChange?.Invoke(new GameScreen(_currentLevel + 1));
+                            }
+                            else
+                            {
+                                RequestScreenChange?.Invoke(new FinishScreen());
+                            }
                         };
 
                         timer.Start();
@@ -249,19 +261,26 @@ namespace Repair.Games
                 if (southWest != null)
                     southWest.Dryness += drynessEffect;
 
+                var dried = false;
                 for (var i = obj.Tile.X - drynessRadius; i < obj.Tile.X + drynessRadius; i++)
                 {
-                    
                     var tile = Map.GetTileAt(i, obj.Tile.Y);
                     if (tile == null) continue;
-                    tile.Dryness += drynessEffect;
+                    var didDry = tile.AddDryness(drynessEffect);
+                    if (didDry) dried = didDry;
                 }
                 
                 for (var j = obj.Tile.Y - drynessRadius; j < obj.Tile.Y + drynessRadius; j++)
                 {
                     var tile = Map.GetTileAt(obj.Tile.X, j);
                     if (tile == null) continue;
-                    tile.Dryness += drynessEffect;
+                    var didDry = tile.AddDryness(drynessEffect);
+                    if (didDry) dried = didDry;
+                }
+
+                if (dried)
+                {
+                    ContentChest.PopSound.Play();
                 }
             }
         }

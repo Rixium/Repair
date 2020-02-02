@@ -21,6 +21,12 @@ namespace Repair.Screen
 
         public GameScreen(int level = 1)
         {
+            if (!LevelExists(level))
+            {
+                RequestScreenChange?.Invoke(new GameScreen(level - 1));
+                return;
+            }
+            
             _world = new World(level)
             {
                 RequestNotification = s => RequestNotification?.Invoke(s),
@@ -32,6 +38,8 @@ namespace Repair.Screen
 
             UIManager = _world.UIManager;
         }
+
+        public static bool LevelExists(int level) => ContentChest.Maps.ContainsKey(level);
 
         private void ResetTransition()
         {

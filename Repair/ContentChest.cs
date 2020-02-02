@@ -24,6 +24,7 @@ namespace Repair
         public static Song MainMusic { get; set; }
         public static SpriteFont TitleFont { get; set; }
         public static SpriteFont ButtonFont { get; set; }
+        public static SpriteFont CreditFont { get; set; }
         
         public static Texture2D NotifyLeft { get; set; }
         public static Texture2D NotifyRight { get; set; }
@@ -31,6 +32,8 @@ namespace Repair
         public static SoundEffect NotifySound { get; set; }
         public static SoundEffect ClickSound { get; set; }
         public static SoundEffect SelectSound { get; set; }
+        public static SoundEffect PopSound { get; set; }
+        public static SoundEffect InsertSound { get; set; }
         
         public static Texture2D Grass { get; set; }
         public static Texture2D Water { get; set; }
@@ -46,6 +49,7 @@ namespace Repair
         public static Dictionary<string, SoundEffect> Sounds { get; set; }
         public static Dictionary<Direction, Animation> Player { get; set; }
         public static SoundEffect PickUp { get; set; }
+        public static SoundEffect WindMillSound { get; set; }
         public static SoundEffect[] Combos { get; set; }
 
         public static void Initialize(ContentManager contentManager)
@@ -90,6 +94,7 @@ namespace Repair
             ClickSound = _contentManager.Load<SoundEffect>("click");
             SelectSound = _contentManager.Load<SoundEffect>("select");
             PickUp = _contentManager.Load<SoundEffect>("pickup");
+            WindMillSound = _contentManager.Load<SoundEffect>("windmill");
 
             Combos[0] = _contentManager.Load<SoundEffect>("combo1");
             Combos[1]   = _contentManager.Load<SoundEffect>("combo2");
@@ -126,7 +131,11 @@ namespace Repair
             SlotBorder = _contentManager.Load<Texture2D>("Images/slot_border");
             SlotBackground = _contentManager.Load<Texture2D>("Images/slot_background");
             SlotFont = _contentManager.Load<SpriteFont>("Fonts/slot");
-            
+            CreditFont = _contentManager.Load<SpriteFont>("Fonts/credits");
+
+            PopSound = _contentManager.Load<SoundEffect>("pop");
+            InsertSound = _contentManager.Load<SoundEffect>("insert");
+
             var text = File.ReadAllText($"{_contentManager.RootDirectory}/Raw/prototypes.json", Encoding.UTF8);
             var prototypes = JsonConvert.DeserializeObject<WorldObject[]>(text);
             
