@@ -17,6 +17,9 @@ namespace Repair.Games
         public Action RequestTransitionReset { get; set; }
         
         private List<WorldObject> WorldObjects = new List<WorldObject>(); 
+
+        public List<DroppedItem> WorldItems { get; set; }
+
         public UIManager UIManager;
         public int MapSize { get; set; } = 300;
 
@@ -32,6 +35,9 @@ namespace Repair.Games
         {
             Map = new Map(ContentChest.Maps[_currentLevel]);
 
+            WorldObjects = Map.WorldObjects;
+            WorldItems = Map.WorldItems;
+            
             InputManager.OnDownHeld = () => Player.Move(0, 1);
             InputManager.OnUpHeld = () => Player.Move(0, -1);
             InputManager.OnLeftHeld = () => Player.Move(-1, 0);
@@ -57,7 +63,7 @@ namespace Repair.Games
             ProgressTimer.Elapsed += (e, b) => Progress();
             ProgressTimer.Start();
         }
-
+        
         private void ResetWorld()
         {
             RequestScreenChange?.Invoke(new GameScreen());
@@ -92,6 +98,7 @@ namespace Repair.Games
             var facing = Player.GetFacingTile();
 
             if (facing == null) return;
+            
             if (facing.WorldObject != null && facing.WorldObject.CanUse)
             {
                 ContentChest.Sounds[facing.WorldObject.UseSound].Play();
@@ -101,18 +108,31 @@ namespace Repair.Games
             
             var slot = UIManager.GetSelectedSlot();
             if (slot.Item == null) return;
-            if (!slot.Item.Usable) return;
+            var successful = false;
+            
+            if (!slot.Item.Usable && slot.Item.RepairID != 0)
+            {
+                if (facing.WorldObject != null && facing.WorldObject.Repairable)
+                {
+                    successful = facing.WorldObject.Repair(slot.Item.ItemName);
+                }
+            }
+            else
+            {
+                var protoType = ContentChest.ProtoTypes[slot.Item.FileName];
+                successful = protoType.CreateInstance(facing);
 
-            var protoType = ContentChest.ProtoTypes[slot.Item.FileName];
-            var successful = protoType.CreateInstance(facing);
+                if (successful)
+                {
+                    ContentChest.Sounds[protoType.PlaceSound].Play();
+                    PowerUpNeighbours(facing);
+                    AddWorldObject(facing.WorldObject);
+                }
+            }
+            
             if (!successful) return;
 
-            ContentChest.Sounds[protoType.PlaceSound].Play();
-            
             slot.Remove(1);
-            
-            PowerUpNeighbours(facing);
-            AddWorldObject(facing.WorldObject);
         }
 
         private void PowerUpNeighbours(Tile tile)
@@ -276,6 +296,7 @@ namespace Repair.Games
             Map.Update(delta);
             Player.Update(delta);
             _camera.Update(delta);
+            WorldObjects.ForEach(m => m.Update(delta));
         }
 
         public void Draw(SpriteBatch spriteBatch)

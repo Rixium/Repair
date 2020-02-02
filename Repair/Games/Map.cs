@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -33,10 +34,15 @@ namespace Repair.Games
 
             MapInformation = WorldGenerator.Create(this, mapData);
             _tiles = MapInformation.Tiles;
+
+            WorldObjects = MapInformation.WorldObjects;
             
             CalculateDryness();
             CreateAnimations();
         }
+
+        public List<WorldObject> WorldObjects { get; set; }
+        public List<DroppedItem> WorldItems { get; set; }
 
         public Tile GetPlayerStartingTile() => MapInformation.Start;
 
@@ -131,8 +137,17 @@ namespace Repair.Games
 
         public void DrawObject(SpriteBatch spriteBatch, WorldObject obj)
         {
-            var image = ContentChest.WorldObjects[$"{obj.FileName[obj.Stage - 1]}"];
-
+            Texture2D image;
+            
+            if (obj.Repairable && obj.Repaired)
+            {
+                image = obj.AnimationOnRepair.Current;
+            }
+            else
+            {
+                image = ContentChest.WorldObjects[$"{obj.FileName[obj.Stage - 1]}"];
+            }
+            
             var objectOrigin = obj.Origins[obj.Stage - 1];
             var origin = new Vector2(objectOrigin.X, objectOrigin.Y);
             

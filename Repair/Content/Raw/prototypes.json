@@ -97,5 +97,55 @@
 		"CanPickUp":false,
 		"PlaceSound": "plant",
 		"ObjectType": 1
+	},
+	{
+		"ObjectName": [
+			"Turbine"
+		],
+		"FileName": [
+			"turbine1"
+		],
+		"Origins": [
+			{
+				"X": 39,
+				"Y": 102
+			},
+			{
+				"X": 39,
+				"Y": 102
+			}
+		],
+		"AnimationOnRepair": {
+			"Speed": 0.2,
+			"FrameNames": [
+				"turbine1",
+				"turbine2",
+				"turbine3",
+				"turbine4"
+			]
+		},
+		"Repairable":true,
+		"Collidable":true,
+		"DrynessRadius":[
+			0,
+			0
+		],
+		"DrynessEffect":[
+			0.01,
+			0.03,
+			0.05,
+			0.06,
+			0.08,
+			0.08,
+			0.08
+		],
+		"RepairRequirements":[
+			"Cog"
+		],
+		"Stage": 1,
+		"TotalStages": 1,
+		"HasProgressEffect": true,
+		"CanPickUp":false,
+		"ObjectType": 2
 	}
 ]

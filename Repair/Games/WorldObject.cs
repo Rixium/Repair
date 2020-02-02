@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Xna.Framework;
 using Repair.UI;
 
 namespace Repair.Games
@@ -11,6 +15,8 @@ namespace Repair.Games
         public bool CanPickup { get; set; }
         public bool Collidable { get; set; }
         public int[] DrynessRadius { get; set; }
+        public bool Repairable { get; set; }
+        public Animation AnimationOnRepair { get; set; }
         public float[] DrynessEffect { get; set; }
         public string[] ObjectName { get; set; }
         public int Stage { get; set; }
@@ -23,10 +29,13 @@ namespace Repair.Games
         public string PlaceSound { get; set; }
         public string UseSound { get; set; }
         public int ObjectType { get; set; }
+        public string[] RepairRequirements { get; set; }
         
         public string DropsOnFinalStage { get; set; }
         public float DropRarity { get; set; }
         public bool HasDropped { get; set; }
+        public bool Repaired { get; set; }
+        public List<string> RepairedItems { get; set; } = new List<string>();
 
         public bool CreateInstance(Tile tile)
         {
@@ -54,12 +63,22 @@ namespace Repair.Games
                 UseSound = UseSound,
                 DropsOnFinalStage = DropsOnFinalStage,
                 DropRarity = DropRarity,
-                ObjectType = ObjectType
+                ObjectType = ObjectType,
+                Repairable = Repairable,
+                AnimationOnRepair = AnimationOnRepair,
+                Repaired = Repaired,
+                RepairRequirements = RepairRequirements
             };
 
             tile.WorldObject = worldObject;
             
             return true;
+        }
+
+        public void Repair()
+        {
+            if (!Repairable) return;
+            Repaired = true;
         }
 
         public bool Progress()
@@ -73,17 +92,64 @@ namespace Repair.Games
 
         public float GetDrynessEffect() => HasProgressEffect ? DrynessEffect[Stage - 1] : 0;
 
+        public int CurrentDrynessHit = 0;
+        
         public int GetDrynessRadius()
         {
             if (!HasProgressEffect) return 0;
             var totalRadius = DrynessRadius[Stage - 1];
-            return totalRadius + Power;
+            var extra = 0;
+
+            if (Tile.East != null && Tile.East.WorldObject != null && Tile.East.WorldObject.ObjectType == ObjectType)
+                extra += 2;
+            if (Tile.West != null && Tile.West.WorldObject != null && Tile.West.WorldObject.ObjectType == ObjectType)
+                extra += 2;
+            if (Tile.North != null && Tile.North.WorldObject != null && Tile.North.WorldObject.ObjectType == ObjectType)
+                extra += 2;
+            if (Tile.South != null && Tile.South.WorldObject != null && Tile.South.WorldObject.ObjectType == ObjectType)
+                extra += 2;
+
+            if(extra > 2)
+            {
+                extra = (int) Math.Ceiling(extra / 2.0f);
+            }
+
+            totalRadius += extra;
+            
+            if (CurrentDrynessHit < totalRadius)
+            {
+                CurrentDrynessHit++;
+            }
+
+            return CurrentDrynessHit;
         }
 
+        public bool Repair(string itemName)
+        {
+            if (!RepairRequirements.Contains(itemName)) return false;
+            
+            RepairedItems.Add(itemName);
+
+            if (RepairRequirements.Length == RepairedItems.Count)
+            {
+                Repaired = true;
+                Stage++;
+            }
+
+            return true;
+
+        }
+        
         public void AddPower()
         {
             if (Power >= 4) return;
             Power += 1;
+        }
+
+        public void Update(float delta)
+        {
+            if (!Repaired) return;
+            AnimationOnRepair?.Update(delta);
         }
     }
 }

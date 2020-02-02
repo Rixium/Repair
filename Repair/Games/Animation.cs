@@ -5,28 +5,32 @@ namespace Repair.Games
     public class Animation
     {
 
-        private float _speed;
+        public float Speed { get; set; }
         private float _currentFrameTime;
         private int _currentFrame;
-        private Texture2D[] _frames;
+        public Texture2D[] Frames { get; set; }
+        public string[] FrameNames { get; set; }
 
-        public Texture2D Current => _frames[_currentFrame];
+        public Texture2D Current =>
+            Frames == null ? 
+                ContentChest.WorldObjects[FrameNames[_currentFrame]] : 
+                Frames[_currentFrame];
 
         public Animation(Texture2D[] frames, float speed)
         {
-            _frames = frames;
-            _speed = speed;
+            Frames = frames;
+            Speed = speed;
         }
 
         public void Update(float delta)
         {
             _currentFrameTime += delta;
 
-            if (_currentFrameTime > _speed)
+            if (_currentFrameTime > Speed)
             {
                 _currentFrame++;
 
-                if (_currentFrame >= _frames.Length)
+                if (_currentFrame >= FramesCount)
                 {
                     _currentFrame = 0;
                 }
@@ -34,6 +38,8 @@ namespace Repair.Games
                 _currentFrameTime = 0;
             }
         }
+
+        public int FramesCount => Frames?.Length ?? FrameNames.Length;
         
     }
 }

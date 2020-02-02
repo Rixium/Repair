@@ -85,7 +85,8 @@ namespace Repair.Games
                 FileName = item.FileName,
                 Count = 1,
                 ItemName = item.ItemName,
-                Usable = item.Usable
+                Usable = item.Usable,
+                RepairID = item.RepairID
             });
 
             if (!added) return;
