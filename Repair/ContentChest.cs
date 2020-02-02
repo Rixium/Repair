@@ -22,6 +22,7 @@ namespace Repair
         public static Texture2D Pixel { get; set; }
         public static Texture2D Splash { get; set; }
         public static Song MainMusic { get; set; }
+        public static Song GameMusic { get; set; }
         public static SpriteFont TitleFont { get; set; }
         public static SpriteFont ButtonFont { get; set; }
         public static SpriteFont CreditFont { get; set; }
@@ -87,6 +88,7 @@ namespace Repair
             
             TitleFont = _contentManager.Load<SpriteFont>("Fonts/title");
             MainMusic = _contentManager.Load<Song>("Music/main");
+            GameMusic = _contentManager.Load<Song>("Music/game");
             Water = _contentManager.Load<Texture2D>("Images/water");
 
             WaterEdgeFrames = new Texture2D[2];

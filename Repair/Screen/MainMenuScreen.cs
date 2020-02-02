@@ -72,6 +72,8 @@ namespace Repair.Screen
             InputManager.OnUpPressed = null;
             InputManager.OnInteractPressed = null;
             
+            MediaPlayer.Stop();
+            MediaPlayer.Play(ContentChest.GameMusic);
             RequestScreenChange?.Invoke(new GameScreen());
         }
 
